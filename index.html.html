@@ -9,148 +9,398 @@
 
   <style>
     :root { color-scheme: dark; }
-    html { background:#0f172a!important; color:#e2e8f0!important; }
-    html,body{min-height:100%}
-    body{
-      background:#0f172a!important;color:#e2e8f0!important;font-family:'Poppins',sans-serif;
-      overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-      overscroll-behavior-y:contain;
-    }
-    input,select,textarea,button{color-scheme:dark}
-    select,option{background:#0f172a!important;color:#e2e8f0!important}
 
-    .bg-gradient-mobile{
-      position:fixed;inset:0;z-index:-1;background-color:#0f172a;
+    html {
+      background: #0f172a !important;
+      color: #e2e8f0 !important;
+    }
+    html, body { min-height: 100%; }
+
+    body {
+      background-color: #0f172a !important;
+      color: #e2e8f0 !important;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior-y: contain;
+    }
+
+    input, select, textarea, button { color-scheme: dark; }
+    select, option { background: #0f172a !important; color: #e2e8f0 !important; }
+
+    .bg-gradient-mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #0f172a;
       background-image:
         radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
         radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
         radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%),
         radial-gradient(at 0% 100%, hsla(253,16%,7%,1) 0, transparent 50%),
         radial-gradient(at 100% 100%, hsla(339,49%,30%,1) 0, transparent 50%);
-      background-attachment:fixed;background-size:cover;
+      background-attachment: fixed;
+      background-size: cover;
     }
 
-    .glass{
-      background:rgba(255,255,255,.05);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,.1);box-shadow:0 4px 30px rgba(0,0,0,.1);
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
-    .glass-input{
-      background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.1);color:white;
-      transition:all .3s ease;font-size:16px;
+
+    .glass-input {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+      font-size: 16px;
     }
-    .glass-input:focus{border-color:#8b5cf6;box-shadow:0 0 15px rgba(139,92,246,.3);outline:none}
 
-    @keyframes slideIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-    .user-card{opacity:1}
-    .user-card.animate-in{animation:slideIn .45s cubic-bezier(.34,1.56,.64,1) both}
-
-    @keyframes pulse-glow{0%{box-shadow:0 0 0 0 rgba(139,92,246,.7)}70%{box-shadow:0 0 0 15px rgba(139,92,246,0)}100%{box-shadow:0 0 0 0 rgba(139,92,246,0)}}
-    .new-user-highlight{border:2px solid #8b5cf6;animation:pulse-glow 2s infinite}
-
-    .skeleton{
-      background:linear-gradient(90deg,rgba(255,255,255,.05) 25%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.05) 75%);
-      background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:.5rem;
+    .glass-input:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+      outline: none;
     }
-    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .skeleton-card{height:200px;border-radius:1rem}
-    .skeleton-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto .5rem}
-    .skeleton-text{height:.875rem;margin-bottom:.5rem}
-    .skeleton-text.short{width:60%;margin:0 auto}
 
-    .offline-indicator{
-      position:fixed;top:0;left:0;right:0;background:#ef4444;color:white;text-align:center;
-      padding:.5rem;font-size:.875rem;z-index:100;transform:translateY(-100%);transition:transform .3s ease;
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .offline-indicator.visible{transform:translateY(0)}
 
-    @media (max-width:640px){
-      .glass-input{font-size:16px!important;padding:.75rem 1rem}
-      .user-card{margin-bottom:.75rem;padding:1rem!important}
+    /* ✅ ƏSAS FIX: kart heç vaxt opacity:0 olmur */
+    .user-card {
+      opacity: 1;
+    }
+
+    /* Animasiya yalnız bu class olanda işləyir */
+    .user-card.animate-in {
+      animation: slideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes pulse-glow {
+      0%   { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+      70%  { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+    }
+
+    .new-user-highlight {
+      border: 2px solid #8b5cf6;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .pull-to-refresh {
+      position: fixed;
+      top: -60px;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 40;
+      transition: top 0.3s ease;
+    }
+
+    .pull-to-refresh.visible { top: 0; }
+
+    .pull-to-refresh-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(139, 92, 246, 0.3);
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 0.5rem;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-card { height: 200px; border-radius: 1rem; }
+    .skeleton-avatar { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 0.5rem; }
+    .skeleton-text { height: 0.875rem; margin-bottom: 0.5rem; }
+    .skeleton-text.short { width: 60%; margin: 0 auto; }
+
+    .offline-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ef4444;
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+      z-index: 100;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    .offline-indicator.visible { transform: translateY(0); }
+
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .image-modal.active { opacity: 1; pointer-events: all; }
+    .image-modal img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 1rem;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .image-modal.active img { transform: scale(1); }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-close:hover { background: rgba(255, 255, 255, 0.2); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    @media (max-width: 640px) {
+      .glass-input { font-size: 16px !important; padding: 0.75rem 1rem; }
+      .user-card { margin-bottom: 0.75rem; padding: 1rem !important; }
+
+      .mobile-card-content {
+        display: flex;
+        flex-direction: row !important;
+        align-items: center !important;
+        text-align: left !important;
+        gap: 0.75rem;
+      }
+
+      .mobile-avatar-wrapper { margin-bottom: 0 !important; flex-shrink: 0; }
+      .mobile-avatar { width: 56px !important; height: 56px !important; }
+      .mobile-info { flex: 1; min-width: 0; }
+      .mobile-name {
+        font-size: 0.9375rem !important;
+        margin-bottom: 0.125rem !important;
+        text-align: left !important;
+        padding: 0 !important;
+      }
+      .mobile-age { font-size: 0.75rem !important; margin-bottom: 0.375rem !important; text-align: left !important; }
+      .mobile-instagram { width: auto !important; display: inline-flex !important; padding: 0.375rem 0.75rem !important; font-size: 0.75rem !important; }
+      .mobile-status { position: absolute; top: 0.5rem !important; right: 0.5rem !important; font-size: 0.625rem !important; padding: 0.125rem 0.5rem !important; }
+      .mobile-time { display: none !important; }
+      .new-badge { font-size: 0.5rem !important; padding: 2px 8px !important; top: -6px !important; }
+    }
+
+    .instagram-link { position: relative; overflow: hidden; }
+    .instagram-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .instagram-link:hover::before { left: 100%; }
+
+    .avatar-container {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .avatar-container:hover { transform: scale(1.05); }
+    .avatar-container::after {
+      content: '🔍';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .avatar-container:hover::after { opacity: 1; }
+
+    @keyframes newUserSlide {
+      0% { opacity: 0; transform: translateY(-30px) scale(0.95); }
+      50% { transform: translateY(5px) scale(1.01); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .new-user-card {
+      animation: newUserSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      border: 2px solid #8b5cf6;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .new-badge {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.625rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    @media (min-width: 641px) {
+      .user-card { margin-bottom: 1.5rem; }
     }
   </style>
 </head>
 
 <body class="antialiased min-h-screen">
+
   <div class="bg-gradient-mobile"></div>
 
   <div id="offlineIndicator" class="offline-indicator">
     <span>⚠️ İnternet bağlantısı yoxdur</span>
   </div>
 
-  <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
+  <div id="pullToRefresh" class="pull-to-refresh">
+    <div class="pull-to-refresh-spinner"></div>
+  </div>
+
+  <div id="imageModal" class="image-modal" onclick="closeModal()">
+    <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </div>
+    <img id="modalImage" src="" alt="Profile">
+  </div>
+
+  <nav class="fixed top-0 w-full z-50 glass border-b border-white/10 safe-area-top">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14 sm:h-16">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
           </div>
           <span class="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 truncate">
             SocialConnect
           </span>
         </div>
-
-        <button onclick="refreshData()" class="group flex items-center gap-2 px-4 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95">
-          <svg class="w-4 h-4 text-purple-400 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span class="text-sm font-medium">Yenilə</span>
-        </button>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <button onclick="refreshData()" class="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95 touch-manipulation">
+            <svg class="w-4 h-4 text-purple-400 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span class="text-xs sm:text-sm font-medium">Yenilə</span>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
 
   <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-10">
-      <div class="lg:col-span-5 flex flex-col justify-center space-y-5">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
+
+      <div class="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
           İcma ilə <br>
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">Əlaqə Qurun</span>
         </h1>
+        <p class="text-base sm:text-lg text-gray-400 leading-relaxed">
+          Yeni insanlarla tanış olun, profilləri kəşf edin və şəbəkənizi genişləndirin. Aşağıdakı formu dolduraraq qeydiyyatdan keçin.
+        </p>
 
-        <div class="flex gap-8 pt-2">
+        <div class="flex gap-6 sm:gap-8 pt-2 sm:pt-4">
           <div>
-            <div class="text-3xl font-bold text-white" id="total-users-count">0</div>
-            <div class="text-sm text-gray-500 uppercase tracking-wider">İstifadəçi</div>
+            <div class="text-2xl sm:text-3xl font-bold text-white" id="total-users-count">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">İstifadəçi</div>
           </div>
           <div>
-            <div class="text-3xl font-bold text-white" id="online-count">0</div>
-            <div class="text-sm text-gray-500 uppercase tracking-wider">Bu gün</div>
+            <div class="text-2xl sm:text-3xl font-bold text-white" id="online-count">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">Bu gün</div>
           </div>
         </div>
       </div>
 
       <div class="lg:col-span-7">
-        <div class="glass rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-          <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <span class="w-1 h-8 bg-purple-500 rounded-full"></span>
+        <div class="glass rounded-2xl p-5 sm:p-8 relative overflow-hidden">
+          <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 sm:w-24 sm:h-24 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+          <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-24 h-24 sm:w-32 sm:h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+
+          <h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
+            <span class="w-1 h-6 sm:h-8 bg-purple-500 rounded-full"></span>
             Qeydiyyat Formu
           </h2>
 
-          <form id="registerForm" class="space-y-5" onsubmit="handleRegister(event)">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <form id="registerForm" class="space-y-4 sm:space-y-5" onsubmit="handleRegister(event)">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <div class="space-y-1">
                 <label class="text-xs font-medium text-gray-400 uppercase">Ad</label>
-                <input type="text" id="firstName" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="Adınızı daxil edin">
+                <input type="text" id="firstName" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Adınızı daxil edin">
               </div>
               <div class="space-y-1">
                 <label class="text-xs font-medium text-gray-400 uppercase">Soyad</label>
-                <input type="text" id="lastName" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="Soyadınızı daxil edin">
+                <input type="text" id="lastName" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Soyadınızı daxil edin">
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <div class="space-y-1">
                 <label class="text-xs font-medium text-gray-400 uppercase">Yaş</label>
-                <input type="number" id="age" min="10" max="100" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="Məs: 25">
+                <input type="number" id="age" min="10" max="100" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Məs: 25">
               </div>
               <div class="space-y-1">
                 <label class="text-xs font-medium text-gray-400 uppercase">Cins</label>
-                <select id="gender" required class="w-full px-4 py-3 rounded-xl glass-input">
+                <select id="gender" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500 appearance-none">
                   <option value="" disabled selected>Seçin</option>
                   <option value="Kişi">Kişi</option>
                   <option value="Qadın">Qadın</option>
@@ -159,18 +409,18 @@
               </div>
             </div>
 
-            <div class="space-y-2">
+            <div class="space-y-2 pt-1 sm:pt-2">
               <label class="text-xs font-medium text-gray-400 uppercase">Ailə Vəziyyəti</label>
-              <div class="flex gap-4">
+              <div class="flex gap-3 sm:gap-4">
                 <label class="flex-1 cursor-pointer">
                   <input type="radio" name="status" value="Subay" class="peer sr-only" checked>
-                  <div class="text-center py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all hover:bg-white/10">
+                  <div class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all hover:bg-white/10 text-sm sm:text-base">
                     Subay
                   </div>
                 </label>
                 <label class="flex-1 cursor-pointer">
                   <input type="radio" name="status" value="Evli" class="peer sr-only">
-                  <div class="text-center py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all hover:bg-white/10">
+                  <div class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all hover:bg-white/10 text-sm sm:text-base">
                     Evli
                   </div>
                 </label>
@@ -180,42 +430,67 @@
             <div class="space-y-1">
               <label class="text-xs font-medium text-gray-400 uppercase">Instagram İstifadəçi Adı</label>
               <div class="relative">
-                <span class="absolute left-4 top-3.5 text-gray-500">@</span>
-                <input type="text" id="instagram" required class="w-full pl-8 pr-4 py-3 rounded-xl glass-input" placeholder="istifadeci_adi">
+                <span class="absolute left-3 sm:left-4 top-2.5 sm:top-3.5 text-gray-500 text-base">@</span>
+                <input type="text" id="instagram" required class="w-full pl-7 sm:pl-8 pr-3 sm:pr-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="istifadeci_adi">
               </div>
               <p class="text-xs text-gray-500 mt-1">Yalnız istifadəçi adı daxil edin</p>
             </div>
 
-            <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition active:scale-95">
-              Qeydiyyatdan Keç
+            <button type="submit" class="w-full py-3 sm:py-4 mt-2 sm:mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transform transition hover:-translate-y-0.5 active:scale-95 flex justify-center items-center gap-2 text-sm sm:text-base touch-manipulation">
+              <span>Qeydiyyatdan Keç</span>
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
+      <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
+      <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
+        <button onclick="filterUsers('all')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap flex-shrink-0">Hamısı</button>
+        <button onclick="filterUsers('Kişi')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Kişi</button>
+        <button onclick="filterUsers('Qadın')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Qadın</button>
+        <button onclick="filterUsers('Subay')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Subay</button>
+        <button onclick="filterUsers('Evli')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Evli</button>
+      </div>
     </div>
 
-    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-    <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
+    <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6"></div>
 
-    <div id="emptyState" class="hidden text-center py-20">
-      <p class="text-gray-400">Hələ heç kim qeydiyyatdan keçməyib.</p>
+    <div id="emptyState" class="hidden text-center py-12 sm:py-20">
+      <div class="inline-block p-3 sm:p-4 rounded-full bg-white/5 mb-3 sm:mb-4">
+        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+      </div>
+      <p class="text-gray-400 text-sm sm:text-base">Hələ heç kim qeydiyyatdan keçməyib.</p>
     </div>
+
   </main>
 
   <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
-    <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-6 py-4 rounded-lg shadow-2xl">
-      <h4 class="font-bold">Uğurlu!</h4>
-      <p class="text-sm text-gray-300">Qeydiyyat tamamlandı.</p>
+    <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl flex items-center gap-3">
+      <div class="bg-green-500/20 p-1.5 sm:p-2 rounded-full flex-shrink-0">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="min-w-0">
+        <h4 class="font-bold text-sm sm:text-base">Uğurlu!</h4>
+        <p class="text-xs sm:text-sm text-gray-300 truncate">Qeydiyyat tamamlandı.</p>
+      </div>
     </div>
   </div>
 
   <script>
-    // Google Form (POST üçün)
     const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
+    const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo";
+
     const ENTRY_FIRSTNAME = "entry.1178680962";
     const ENTRY_LASTNAME  = "entry.1475120277";
     const ENTRY_INSTAGRAM = "entry.1110943076";
@@ -223,13 +498,12 @@
     const ENTRY_GENDER    = "entry.1632031862";
     const ENTRY_STATUS    = "entry.222463848";
 
-    // ✅ BURANI DƏYİŞ:
-    // Apps Script Web App URL (Deploy -> Web app -> /exec link)
-    const API_GET_URL = "https://script.google.com/macros/s/AKfycbxyBMddB7lUw-z5MZ4Vno0BJK6Z93vanHEtYgvylGns6nD7JaLFHOfEmEjo8bRPHpd9/exec";
-
     const LS_KEY = "socialconnect_users_v1";
     let users = [];
+    let currentFilter = "all";
     let isLoading = false;
+    let lastAddedUserId = null;
+    let newUserTimeout = null;
 
     const grid = document.getElementById('usersGrid');
     const skeletonLoader = document.getElementById('skeletonLoader');
@@ -238,55 +512,31 @@
     const onlineCountEl = document.getElementById('online-count');
     const emptyState = document.getElementById('emptyState');
     const offlineIndicator = document.getElementById('offlineIndicator');
+    const pullToRefresh = document.getElementById('pullToRefresh');
 
-    function showToast(ok=true, msg="Qeydiyyat tamamlandı.") {
-      const toast = document.getElementById('toast');
-      toast.querySelector("h4").textContent = ok ? "Uğurlu!" : "Xəta!";
-      toast.querySelector("p").textContent = msg;
-      toast.classList.remove('translate-y-24', 'opacity-0');
-      setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 3000);
+    function getAvatar(firstName, lastName, gender) {
+      const name = `${firstName || ''} ${lastName || ''}`.trim();
+      const seed = encodeURIComponent(name || 'User');
+
+      let bgColors;
+      if (gender === 'Kişi') bgColors = '3b82f6,2563eb,1d4ed8';
+      else if (gender === 'Qadın') bgColors = 'ec4899,db2777,be185d';
+      else bgColors = '8b5cf6,7c3aed,6d28d9';
+
+      return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=${bgColors}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
     }
 
-    function showSkeleton() {
-      skeletonLoader.innerHTML = '';
-      const count = window.innerWidth < 640 ? 2 : (window.innerWidth < 1024 ? 4 : 8);
-      for (let i = 0; i < count; i++) {
-        const skeleton = document.createElement('div');
-        skeleton.className = 'glass rounded-2xl p-4 skeleton-card flex flex-col items-center justify-center';
-        skeleton.innerHTML = `
-          <div class="skeleton skeleton-avatar"></div>
-          <div class="skeleton skeleton-text w-3/4 mb-1"></div>
-          <div class="skeleton skeleton-text short"></div>
-        `;
-        skeletonLoader.appendChild(skeleton);
-      }
-      skeletonLoader.classList.remove('hidden');
-      grid.classList.add('hidden');
-    }
+    function formatName(firstName, lastName) {
+      const capitalize = (str) => {
+        if (!str) return '';
+        return str.split(' ').map(word =>
+          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+      };
 
-    function hideSkeleton() {
-      skeletonLoader.classList.add('hidden');
-      grid.classList.remove('hidden');
-    }
-
-    function updateOnlineStatus() {
-      if (!navigator.onLine) offlineIndicator.classList.add('visible');
-      else offlineIndicator.classList.remove('visible');
-    }
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
-
-    function saveUsersLocal() {
-      localStorage.setItem(LS_KEY, JSON.stringify(users));
-    }
-    function loadUsersLocal() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
-      } catch { return []; }
+      const first = capitalize(firstName);
+      const last = capitalize(lastName);
+      return `${first} ${last}`.trim() || "Naməlum";
     }
 
     function timeAgo(ts) {
@@ -298,104 +548,335 @@
       const hours = Math.floor(minutes / 60);
       if (hours < 24) return `${hours} saat əvvəl`;
       const days = Math.floor(hours / 24);
-      return `${days} gün əvvəl`;
+      if (days < 30) return `${days} gün əvvəl`;
+      const months = Math.floor(days / 30);
+      if (months < 12) return `${months} ay əvvəl`;
+      return `${Math.floor(days / 365)} il əvvəl`;
     }
 
-    function getAvatar(firstName, lastName) {
-      const name = `${firstName || ''} ${lastName || ''}`.trim();
-      const seed = encodeURIComponent(name || 'User');
-      return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=8b5cf6,ec4899&textColor=ffffff&size=128&radius=50`;
+    function showSkeleton() {
+      skeletonLoader.innerHTML = '';
+      const count = window.innerWidth < 640 ? 2 : (window.innerWidth < 1024 ? 4 : 8);
+
+      for (let i = 0; i < count; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'glass rounded-2xl p-4 skeleton-card flex flex-col items-center justify-center';
+        skeleton.innerHTML = `
+          <div class="skeleton skeleton-avatar"></div>
+          <div class="skeleton skeleton-text w-3/4 mb-1"></div>
+          <div class="skeleton skeleton-text short"></div>
+        `;
+        skeletonLoader.appendChild(skeleton);
+      }
+
+      skeletonLoader.classList.remove('hidden');
+      grid.classList.add('hidden');
+    }
+
+    function hideSkeleton() {
+      skeletonLoader.classList.add('hidden');
+      grid.classList.remove('hidden');
+    }
+
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const pullThreshold = 80;
+
+    document.addEventListener('touchstart', e => {
+      if (window.scrollY === 0) touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (window.scrollY === 0 && touchStartY > 0) {
+        touchEndY = e.touches[0].clientY;
+        const pullDistance = touchEndY - touchStartY;
+
+        if (pullDistance > 0 && pullDistance < pullThreshold) {
+          pullToRefresh.style.top = `${-60 + (pullDistance * 0.5)}px`;
+        } else if (pullDistance >= pullThreshold) {
+          pullToRefresh.classList.add('visible');
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (pullToRefresh.classList.contains('visible')) {
+        refreshData();
+        setTimeout(() => {
+          pullToRefresh.classList.remove('visible');
+          pullToRefresh.style.top = '-60px';
+        }, 1000);
+      } else {
+        pullToRefresh.style.top = '-60px';
+      }
+      touchStartY = 0;
+    });
+
+    function updateOnlineStatus() {
+      if (!navigator.onLine) offlineIndicator.classList.add('visible');
+      else offlineIndicator.classList.remove('visible');
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
+    function openModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
     async function fetchUsersFromAPI() {
-      if (!API_GET_URL || API_GET_URL.includes("SENIN_WEB_APP_URL")) {
-        throw new Error("API_GET_URL düzgün qoyulmayıb (Apps Script /exec link lazımdır).");
+      // Səndə bu URL user_content_key-lidir, çox vaxt CORS/echo olur.
+      // Problem olarsa local-a düşür.
+      if (!API_GET_URL || API_GET_URL.includes("user_content_key")) {
+        return loadUsers();
       }
 
-      const res = await fetch(API_GET_URL + "?t=" + Date.now(), { cache: "no-store" });
-      const data = await res.json();
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      if (!data.ok || !Array.isArray(data.users)) {
-        throw new Error("API düzgün cavab qaytarmadı");
+        const res = await fetch(API_GET_URL + "&t=" + Date.now(), {
+          signal: controller.signal,
+          cache: 'no-store'
+        });
+
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error("HTTP xəta: " + res.status);
+
+        const data = await res.json();
+        if (!data.ok || !Array.isArray(data.users)) throw new Error("API-dən düzgün data gəlmədi");
+
+        return data.users.map(u => ({
+          id: u.id || Date.now() + Math.random(),
+          firstName: u.FirstName || u.firstName || u.ad || u.Ad || "",
+          lastName: u.LastName || u.lastName || u.soyad || u.Soyad || "",
+          age: u.Age || u.age || u.yas || u.Yaş || "",
+          gender: u.Gender || u.gender || u.cins || u.Cins || "Digər",
+          status: u.Status || u.status || u.veziyyet || u.Vəziyyət || "Subay",
+          instagram: u.Instagram || u.instagram || u.ig || "",
+          timestamp: u.Timestamp || u.timestamp || Date.now()
+        }));
+
+      } catch (e) {
+        console.error("API fetch xətası:", e);
+        return loadUsers();
       }
+    }
 
-      // Normalize + timestamp
-      return data.users.map(u => ({
-        id: u.id || String(u.timestamp || Date.now()) + "_" + Math.random(),
-        firstName: (u.firstName || "").trim(),
-        lastName: (u.lastName || "").trim(),
-        age: u.age || "",
-        gender: u.gender || "Digər",
-        status: u.status || "Subay",
-        instagram: (u.instagram || "").replace("@","").trim(),
-        timestamp: Number(u.timestamp) || Date.now()
-      }));
+    function loadUsers() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveUsers() {
+      localStorage.setItem(LS_KEY, JSON.stringify(users));
     }
 
     function renderUsers() {
       grid.innerHTML = "";
 
-      users.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+      const filtered = users.filter(u => {
+        if (currentFilter === "all") return true;
+        return u.gender === currentFilter || u.status === currentFilter;
+      });
+
+      filtered.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
       totalCountEl.innerText = users.length;
       const todayCount = users.filter(u => u.timestamp && (Date.now() - u.timestamp) < 86400000).length;
       onlineCountEl.innerText = todayCount;
 
-      if (users.length === 0) {
+      if (filtered.length === 0) {
         emptyState.classList.remove("hidden");
         return;
       } else {
         emptyState.classList.add("hidden");
       }
 
-      users.forEach((user) => {
-        const ig = user.instagram;
-        const igLink = ig ? `https://instagram.com/${ig}` : "#";
-        const card = document.createElement("div");
-        card.className = "user-card animate-in glass rounded-2xl p-5 relative hover:bg-white/10 transition";
+      const isMobile = window.innerWidth < 640;
 
-        card.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-purple-500 to-pink-500">
-              <img src="${getAvatar(user.firstName, user.lastName)}" class="w-full h-full rounded-full object-cover border-2 border-[#0f172a]" />
+      filtered.forEach((user) => {
+        const isNew = user.id === lastAddedUserId;
+        const isRecent = user.timestamp && (Date.now() - user.timestamp) < 60000;
+
+        const ig = (user.instagram || "").replace("@", "").trim();
+        const igLink = ig ? `https://instagram.com/${ig}` : "#";
+
+        const card = document.createElement("div");
+
+        if (isNew) {
+          card.className = `user-card glass rounded-2xl p-4 sm:p-6 relative group hover:bg-white/10 transition-all duration-300 new-user-card`;
+        } else {
+          card.className = `user-card glass rounded-2xl p-4 sm:p-6 relative group hover:bg-white/10 transition-all duration-300 ${isRecent ? "new-user-highlight" : ""}`;
+          card.classList.add("animate-in"); // istəsən silə bilərsən (sadəcə yüngül animasiya üçün)
+        }
+
+        const displayName = formatName(user.firstName, user.lastName);
+        const displayNameShort = displayName.length > (isMobile ? 18 : 22) ? displayName.substring(0, isMobile ? 18 : 22) + '...' : displayName;
+        const displayAge = user.age ? `${user.age} yaş` : "";
+        const displayStatus = user.status || "Subay";
+        const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300 border-pink-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender);
+        const newBadge = isNew ? '<div class="new-badge">Yeni</div>' : '';
+
+        if (isMobile) {
+          card.innerHTML = `
+            ${newBadge}
+            <div class="mobile-status absolute top-2 right-2">
+              <span class="px-2 py-0.5 text-xs rounded-md ${statusColor} border">
+                ${displayStatus}
+              </span>
             </div>
-            <div class="min-w-0">
-              <div class="text-white font-bold truncate">${user.firstName} ${user.lastName}</div>
-              <div class="text-xs text-gray-400">${user.age ? user.age + " yaş" : ""} • ${user.gender} • ${user.status}</div>
-              <div class="text-xs text-gray-500 mt-1">${timeAgo(user.timestamp)}</div>
+
+            <div class="mobile-card-content flex flex-row items-center gap-3">
+              <div class="mobile-avatar-wrapper avatar-container relative flex-shrink-0" onclick="openModal('${avatarUrl}')">
+                <div class="mobile-avatar w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-purple-500 to-pink-500">
+                  <img src="${avatarUrl}"
+                    alt="${displayName}"
+                    class="w-full h-full rounded-full object-cover border-2 border-[#0f172a] bg-gray-800"
+                    loading="lazy"
+                    onerror="this.src='${getAvatar('U', '', user.gender)}'">
+                </div>
+                ${isRecent ? '<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#0f172a] rounded-full"></span>' : ''}
+              </div>
+
+              <div class="mobile-info flex-1 min-w-0">
+                <h3 class="mobile-name text-sm font-bold text-white mb-0.5 truncate" title="${displayName}">${displayNameShort}</h3>
+                <p class="mobile-age text-xs text-gray-400 mb-1.5">${displayAge}</p>
+
+                ${ig ? `
+                <a href="${igLink}" target="_blank" rel="noopener noreferrer"
+                  class="mobile-instagram inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 text-purple-300 text-xs">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  <span class="font-medium truncate max-w-[100px]">@${ig}</span>
+                </a>
+                ` : '<span class="text-xs text-gray-500">Instagram yoxdur</span>'}
+              </div>
             </div>
-          </div>
-          <div class="mt-3">
-            ${ig ? `
-              <a class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300"
-                 href="${igLink}" target="_blank" rel="noopener noreferrer">
-                @${ig}
+          `;
+        } else {
+          card.innerHTML = `
+            ${newBadge}
+            <div class="absolute top-3 right-3 sm:top-4 sm:right-4">
+              <span class="px-2 py-0.5 sm:py-1 text-xs rounded-md ${statusColor} border">
+                ${displayStatus}
+              </span>
+            </div>
+
+            <div class="flex flex-col items-center text-center">
+              <div class="avatar-container relative mb-3 sm:mb-4" onclick="openModal('${avatarUrl}')">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-purple-500 to-pink-500">
+                  <img src="${avatarUrl}"
+                    alt="${displayName}"
+                    class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-[#0f172a] bg-gray-800"
+                    loading="lazy"
+                    onerror="this.src='${getAvatar('U', '', user.gender)}'">
+                </div>
+                ${isRecent ? '<span class="absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 border-2 sm:border-4 border-[#0f172a] rounded-full"></span>' : ''}
+              </div>
+
+              <h3 class="text-lg sm:text-xl font-bold text-white mb-0.5 sm:mb-1 truncate w-full px-2" title="${displayName}">${displayNameShort}</h3>
+              <p class="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">${displayAge}</p>
+
+              ${ig ? `
+              <a href="${igLink}" target="_blank" rel="noopener noreferrer"
+                class="instagram-link w-full py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 text-purple-300 hover:text-white hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-1.5 sm:gap-2 group-hover:shadow-lg group-hover:shadow-purple-500/20 text-sm sm:text-base">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span class="font-medium truncate">@${ig}</span>
               </a>
-            ` : `<div class="text-xs text-gray-500">Instagram yoxdur</div>`}
-          </div>
-        `;
+              ` : '<div class="w-full py-2 sm:py-2.5 rounded-xl bg-white/5 text-gray-500 text-xs sm:text-sm">Instagram yoxdur</div>'}
+
+              <div class="mt-3 sm:mt-4 text-xs text-gray-500 flex items-center gap-1">
+                <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>${timeAgo(user.timestamp)}</span>
+              </div>
+            </div>
+          `;
+        }
 
         grid.appendChild(card);
       });
+
+      if (lastAddedUserId) {
+        setTimeout(() => {
+          const newCard = document.querySelector('.new-user-card');
+          if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 80);
+      }
+    }
+
+    // ✅ FIX: renderUsers() çağırmırıq — itmə burdan gəlirdi
+    function clearNewUserHighlight() {
+      if (newUserTimeout) clearTimeout(newUserTimeout);
+      newUserTimeout = setTimeout(() => {
+        lastAddedUserId = null;
+      }, 5000);
+    }
+
+    function showToast(ok=true, msg="Qeydiyyat tamamlandı.") {
+      const toast = document.getElementById('toast');
+      toast.querySelector("h4").textContent = ok ? "Uğurlu!" : "Xəta!";
+      toast.querySelector("p").textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 3000);
+    }
+
+    function setFilterButtonUI(type) {
+      const buttons = document.querySelectorAll('button[onclick^="filterUsers"]');
+      buttons.forEach(btn => {
+        const active = btn.getAttribute('onclick').includes(`'${type}'`);
+        if (active) {
+          btn.classList.add('bg-white/20','ring-2','ring-purple-500');
+          btn.classList.remove('bg-white/5');
+        } else {
+          btn.classList.remove('bg-white/20','ring-2','ring-purple-500');
+          btn.classList.add('bg-white/5');
+        }
+      });
+    }
+
+    function filterUsers(type) {
+      currentFilter = type;
+      setFilterButtonUI(type);
+      renderUsers();
     }
 
     async function refreshData() {
       if (isLoading) return;
       isLoading = true;
+
       showSkeleton();
 
       try {
-        users = await fetchUsersFromAPI();
-        saveUsersLocal(); // offline üçün
+        const apiUsers = await fetchUsersFromAPI();
+        if (apiUsers.length > 0) {
+          users = apiUsers;
+          saveUsers();
+        }
         hideSkeleton();
         renderUsers();
         showToast(true, "Yeniləndi.");
       } catch (e) {
         console.error(e);
-        users = loadUsersLocal();
         hideSkeleton();
-        renderUsers();
-        showToast(false, "API alınmadı — offline data göstərildi.");
+        showToast(false, "Yenilənmə alınmadı.");
       } finally {
         isLoading = false;
       }
@@ -410,8 +891,12 @@
       fd.append(ENTRY_STATUS,    payload.status);
       fd.append(ENTRY_INSTAGRAM, payload.instagram);
 
-      await fetch(FORM_ACTION_URL, { method:"POST", mode:"no-cors", body: fd });
-      return { ok:true };
+      await fetch(FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: fd
+      });
+      return { ok: true };
     }
 
     async function handleRegister(e) {
@@ -429,39 +914,66 @@
         return;
       }
 
-      const newUser = { firstName, lastName, age, gender, status, instagram, timestamp: Date.now() };
+      const newUser = {
+        id: Date.now(),
+        firstName,
+        lastName,
+        age,
+        gender,
+        status,
+        instagram,
+        timestamp: Date.now()
+      };
 
-      // Dərhal UI (hamıda görünməsi üçün sonra refreshData() ilə sheetdən gələcək)
-      users.unshift({ ...newUser, id: String(Date.now()) + "_local" });
-      saveUsersLocal();
+      lastAddedUserId = newUser.id;
+
+      // ✅ Dərhal UI
+      users.unshift(newUser);
+      saveUsers();
+      showToast(true, "Qeydiyyat tamamlandı.");
       renderUsers();
-      showToast(true, "Göndərildi. Birazdan hamıda görünəcək.");
+      clearNewUserHighlight();
 
+      // ✅ Serverə göndər (amma avtomatik refresh etmə)
       try {
         await sendToGoogleForm(newUser);
-        // 1-2 saniyə sonra sheetdən yenilə (hamı üçün real məlumat)
-        setTimeout(refreshData, 1500);
       } catch (err) {
         console.error(err);
-        showToast(false, "Göndərmək alınmadı.");
       }
 
       form.reset();
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
+      setFilterButtonUI("all");
+
       showSkeleton();
+
       try {
-        users = await fetchUsersFromAPI();
-        saveUsersLocal();
+        const apiUsers = await fetchUsersFromAPI();
+        if (apiUsers.length > 0) {
+          users = apiUsers;
+          saveUsers();
+        } else {
+          users = loadUsers();
+        }
       } catch (e) {
         console.error(e);
-        users = loadUsersLocal();
+        users = loadUsers();
       } finally {
         hideSkeleton();
         renderUsers();
       }
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    window.addEventListener('resize', () => {
+      renderUsers();
+    });
   </script>
+
 </body>
 </html>
