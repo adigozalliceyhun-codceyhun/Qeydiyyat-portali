@@ -4,31 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Qeydiyyat Portalı</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com "></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300 ;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root { color-scheme: dark; }
 
-    html {
-      background: #0f172a !important;
-      color: #e2e8f0 !important;
+html {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+html, body { min-height: 100%; }
+
+body {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+input, select, textarea, button { color-scheme: dark; }
+select, option { background: #0f172a !important; color: #e2e8f0 !important; }
+
+    :root {
+      color-scheme: dark;
     }
-    html, body { min-height: 100%; }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    html {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+html, body {
+  min-height: 100%;
+}
+    input, select, textarea, button {
+  color-scheme: dark;
+}
+
+select, option {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
 
     body {
-      background-color: #0f172a !important;
-      color: #e2e8f0 !important;
       font-family: 'Poppins', sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overscroll-behavior-y: contain;
     }
 
-    input, select, textarea, button { color-scheme: dark; }
-    select, option { background: #0f172a !important; color: #e2e8f0 !important; }
-
+    /* Mobilə uyğun arxa fon */
     .bg-gradient-mobile {
       position: fixed;
       top: 0;
@@ -90,6 +119,7 @@
       animation: pulse-glow 2s infinite; 
     }
 
+    /* Pull to refresh styles */
     .pull-to-refresh {
       position: fixed;
       top: -60px;
@@ -120,6 +150,7 @@
       to { transform: rotate(360deg); }
     }
 
+    /* Skeleton loading */
     .skeleton {
       background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
       background-size: 200% 100%;
@@ -154,6 +185,7 @@
       margin: 0 auto;
     }
 
+    /* Offline indicator */
     .offline-indicator {
       position: fixed;
       top: 0;
@@ -173,6 +205,7 @@
       transform: translateY(0);
     }
 
+    /* Image modal */
     .image-modal {
       position: fixed;
       inset: 0;
@@ -223,11 +256,13 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
+    /* Mobil üçün scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
+    /* Mobil touch optimallaşdırma */
     @media (max-width: 640px) {
       .glass-input {
         font-size: 16px !important;
@@ -239,6 +274,7 @@
       }
     }
 
+    /* Instagram link hover effekti */
     .instagram-link {
       position: relative;
       overflow: hidden;
@@ -259,6 +295,7 @@
       left: 100%;
     }
 
+    /* Avatar hover zoom */
     .avatar-container {
       position: relative;
       cursor: pointer;
@@ -290,6 +327,7 @@
       opacity: 1;
     }
 
+    /* Yeni istifadəçi animasiyası */
     @keyframes newUserSlide {
       0% {
         opacity: 0;
@@ -327,6 +365,7 @@
       box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
     }
 
+    /* Mobil üçün əlavə düzəlişlər */
     @media (max-width: 768px) {
       .user-card {
         margin-bottom: 1.5rem;
@@ -342,16 +381,20 @@
 
 <body class="antialiased min-h-screen">
 
+  <!-- Arxa fon -->
   <div class="bg-gradient-mobile"></div>
 
+  <!-- Offline indicator -->
   <div id="offlineIndicator" class="offline-indicator">
     <span>⚠️ İnternet bağlantısı yoxdur</span>
   </div>
 
+  <!-- Pull to refresh -->
   <div id="pullToRefresh" class="pull-to-refresh">
     <div class="pull-to-refresh-spinner"></div>
   </div>
 
+  <!-- Image Modal -->
   <div id="imageModal" class="image-modal" onclick="closeModal()">
     <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,6 +404,7 @@
     <img id="modalImage" src="" alt="Profile">
   </div>
 
+  <!-- Header -->
   <nav class="fixed top-0 w-full z-50 glass border-b border-white/10 safe-area-top">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14 sm:h-16">
@@ -390,6 +434,7 @@
 
   <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
+    <!-- Hero + Form -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
 
       <div class="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6">
@@ -489,6 +534,7 @@
       </div>
     </div>
 
+    <!-- Filters -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
       <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
       <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
@@ -500,8 +546,12 @@
       </div>
     </div>
 
-    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
+    <!-- Loading Skeleton (hidden by default) -->
+    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      <!-- Skeleton cards will be generated by JS -->
+    </div>
 
+    <!-- Grid -->
     <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
 
     <div id="emptyState" class="hidden text-center py-12 sm:py-20">
@@ -516,6 +566,7 @@
 
   </main>
 
+  <!-- Toast -->
   <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
     <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl flex items-center gap-3">
       <div class="bg-green-500/20 p-1.5 sm:p-2 rounded-full flex-shrink-0">
@@ -531,8 +582,12 @@
   </div>
 
   <script>
-    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
-    const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo";
+    /***********************
+     *  CONFIGURATION      *
+     ***********************/
+    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse ";
+    const API_URL = "https://script.google.com/macros/s/AKfycbw317fB5EGKQqPxuk3A4cIGqs3yttMfI8VCPinR8bn1oUYDqR56B8VylkSEDeYzqnj7/exec ";
+    const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo ";
 
     const ENTRY_FIRSTNAME = "entry.1178680962";
     const ENTRY_LASTNAME  = "entry.1475120277";
@@ -541,6 +596,9 @@
     const ENTRY_GENDER    = "entry.1632031862";
     const ENTRY_STATUS    = "entry.222463848";
 
+    /***********************
+     *  STATE & UTILS      *
+     ***********************/
     const LS_KEY = "socialconnect_users_v1";
     let users = [];
     let currentFilter = "all";
@@ -556,10 +614,22 @@
     const offlineIndicator = document.getElementById('offlineIndicator');
     const pullToRefresh = document.getElementById('pullToRefresh');
 
-    function getAvatar(firstName, lastName, gender) {
+    /**
+     * AVATAR GENERATION - DiceBear və ya Instagram profil şəkli
+     */
+    function getAvatar(firstName, lastName, gender, instagram = '') {
+      // Əgər Instagram istifadəçi adı varsa, profil şəklini yoxla
+      if (instagram) {
+        const ig = instagram.replace("@", "").trim();
+        // Instagram profil şəkli üçün URL (bu işləməyə bilər, amma cəhd edək)
+        // Alternativ: https://www.instagram.com/ ${ig}/?__a=1&__d=dis (API ilə)
+        // Sadəcə ehtimal üçün placeholder
+      }
+      
       const name = `${firstName || ''} ${lastName || ''}`.trim();
       const seed = encodeURIComponent(name || 'User');
       
+      // Cinsə görə arxa fon rəngləri
       let bgColors;
       if (gender === 'Kişi') {
         bgColors = '3b82f6,2563eb,1d4ed8';
@@ -569,20 +639,8 @@
         bgColors = '8b5cf6,7c3aed,6d28d9';
       }
       
-      return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=${bgColors}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
-    }
-
-    function formatName(firstName, lastName) {
-      const capitalize = (str) => {
-        if (!str) return '';
-        return str.split(' ').map(word => 
-          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        ).join(' ');
-      };
-      
-      const first = capitalize(firstName);
-      const last = capitalize(lastName);
-      return `${first} ${last}`.trim() || "Naməlum";
+      // DiceBear initials API - SVG format
+      return `https://api.dicebear.com/9.x/initials/svg?seed= ${seed}&backgroundColor=${bgColors}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
     }
 
     function timeAgo(ts) {
@@ -600,6 +658,9 @@
       return `${Math.floor(days / 365)} il əvvəl`;
     }
 
+    /***********************
+     *  SKELETON LOADER    *
+     ***********************/
     function showSkeleton() {
       skeletonLoader.innerHTML = '';
       const count = window.innerWidth < 640 ? 2 : (window.innerWidth < 1024 ? 4 : 8);
@@ -625,6 +686,9 @@
       grid.classList.remove('hidden');
     }
 
+    /***********************
+     *  PULL TO REFRESH    *
+     ***********************/
     let touchStartY = 0;
     let touchEndY = 0;
     const pullThreshold = 80;
@@ -661,6 +725,9 @@
       touchStartY = 0;
     });
 
+    /***********************
+     *  OFFLINE DETECTION  *
+     ***********************/
     function updateOnlineStatus() {
       if (!navigator.onLine) {
         offlineIndicator.classList.add('visible');
@@ -673,6 +740,9 @@
     window.addEventListener('offline', updateOnlineStatus);
     updateOnlineStatus();
 
+    /***********************
+     *  IMAGE MODAL        *
+     ***********************/
     function openModal(imageSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
@@ -687,24 +757,16 @@
       document.body.style.overflow = '';
     }
 
+    /***********************
+     *  DATA FETCHING      *
+     ***********************/
     async function fetchUsersFromAPI() {
-      if (!API_GET_URL || API_GET_URL.includes("user_content_key")) {
+      if (!API_GET_URL || API_GET_URL.includes("API_GET_URL")) {
         return loadUsers();
       }
       
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        
-        const res = await fetch(API_GET_URL + "&t=" + Date.now(), {
-          signal: controller.signal,
-          cache: 'no-store'
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!res.ok) throw new Error("HTTP xəta: " + res.status);
-        
+        const res = await fetch(API_GET_URL + "&t=" + Date.now());
         const data = await res.json();
 
         if (!data.ok || !Array.isArray(data.users)) {
@@ -743,6 +805,9 @@
       localStorage.setItem(LS_KEY, JSON.stringify(users));
     }
 
+    /***********************
+     *  RENDERING          *
+     ***********************/
     function renderUsers() {
       grid.innerHTML = "";
 
@@ -768,12 +833,12 @@
         const isNew = user.id === lastAddedUserId;
         const isRecent = user.timestamp && (Date.now() - user.timestamp) < 60000;
         const delay = index * 100;
-        
-        const ig = (user.instagram || "").replace("@", "").trim();
-        const igLink = ig ? `https://instagram.com/${ig}` : "#";
+        const ig = (user.instagram || "").replace("@", "");
+        const igLink = ig ? `https://instagram.com/ ${ig}` : "#";
 
         const card = document.createElement("div");
         
+        // Yeni əlavə olunan istifadəçi üçün xüsusi klas
         if (isNew) {
           card.className = `user-card glass rounded-2xl p-4 sm:p-6 relative group hover:bg-white/10 transition-all duration-300 new-user-card`;
         } else {
@@ -782,22 +847,22 @@
         
         card.style.animationDelay = `${delay}ms`;
 
-        const displayName = formatName(user.firstName, user.lastName);
-        const displayNameShort = displayName.length > 22 ? displayName.substring(0, 22) + '...' : displayName;
-        
+        const displayName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || "Naməlum";
+        const displayNameShort = displayName.length > 20 ? displayName.substring(0, 20) + '...' : displayName;
         const displayAge = user.age ? `${user.age} yaş` : "";
-        
+        const displayGender = user.gender || "";
         const displayStatus = user.status || "Subay";
-        const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300 border-pink-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+        const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300';
 
-        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender);
+        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender, user.instagram);
 
+        // Yeni badge əlavə et
         const newBadge = isNew ? '<div class="new-badge">Yeni</div>' : '';
 
         card.innerHTML = `
           ${newBadge}
           <div class="absolute top-3 right-3 sm:top-4 sm:right-4">
-            <span class="px-2 py-0.5 sm:py-1 text-xs rounded-md ${statusColor} border">
+            <span class="px-2 py-0.5 sm:py-1 text-xs rounded-md ${statusColor} border border-white/5">
               ${displayStatus}
             </span>
           </div>
@@ -815,7 +880,7 @@
             </div>
 
             <h3 class="text-lg sm:text-xl font-bold text-white mb-0.5 sm:mb-1 truncate w-full px-2" title="${displayName}">${displayNameShort}</h3>
-            <p class="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">${displayAge}</p>
+            <p class="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">${displayAge} ${displayAge && displayGender ? '•' : ''} ${displayGender}</p>
 
             ${ig ? `
             <a href="${igLink}" target="_blank" rel="noopener noreferrer"
@@ -834,12 +899,14 @@
         grid.appendChild(card);
       });
 
+      // Yeni əlavə olunan istifadəçini səhifənin başına scroll et
       if (lastAddedUserId) {
         setTimeout(() => {
           const newCard = document.querySelector('.new-user-card');
           if (newCard) {
             newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
+          // 5 saniyə sonra "yeni" statusunu sil
           setTimeout(() => {
             lastAddedUserId = null;
             renderUsers();
@@ -900,6 +967,9 @@
       }
     }
 
+    /***********************
+     *  FORM HANDLING      *
+     ***********************/
     async function sendToGoogleForm(payload) {
       const fd = new FormData();
       fd.append(ENTRY_FIRSTNAME, payload.firstName);
@@ -943,6 +1013,7 @@
         timestamp: Date.now()
       };
 
+      // Yeni əlavə olunan istifadəçinin ID-sini saxla
       lastAddedUserId = newUser.id;
       
       users.unshift(newUser);
@@ -952,7 +1023,7 @@
 
       try {
         await sendToGoogleForm(newUser);
-        setTimeout(refreshData, 3000);
+        setTimeout(refreshData, 2000);
       } catch (err) {
         console.error(err);
       }
@@ -960,23 +1031,17 @@
       form.reset();
     }
 
+    /***********************
+     *  INITIALIZATION     *
+     ***********************/
     document.addEventListener("DOMContentLoaded", async () => {
       setFilterButtonUI("all");
       
       showSkeleton();
       
       try {
-        const [apiUsers] = await Promise.all([
-          fetchUsersFromAPI(),
-          new Promise(resolve => setTimeout(resolve, 500))
-        ]);
-        
-        if (apiUsers.length > 0) {
-          users = apiUsers;
-          saveUsers();
-        } else {
-          users = loadUsers();
-        }
+        users = await fetchUsersFromAPI();
+        saveUsers();
       } catch (e) {
         console.error(e);
         users = loadUsers();
@@ -986,9 +1051,12 @@
       }
     });
 
+    // Keyboard support for modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
+
+    
   </script>
 
 </body>
