@@ -1,4 +1,4 @@
-html_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 <head>
   <meta charset="UTF-8" />
@@ -15,14 +15,15 @@ html_code = '''<!DOCTYPE html>
     
     body {
       font-family: 'Poppins', sans-serif;
-      background: #0a0a0a !important;
-      color: #e5e7eb;
+      background: #f8f9fa !important;
+      color: #333;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       margin: 0;
       padding: 0;
     }
 
+    /* Telefon üçün optimize */
     @media (max-width: 640px) {
       body {
         font-size: 14px;
@@ -30,20 +31,19 @@ html_code = '''<!DOCTYPE html>
     }
 
     .glass {
-      background: #1a1a1a;
+      background: white;
       border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
     }
 
     .input-field {
       width: 100%;
       padding: 14px 16px;
-      border: 1px solid #333;
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
       font-size: 16px;
-      background: #1a1a1a;
-      color: #e5e7eb;
+      background: white;
       transition: all 0.2s;
       margin-top: 6px;
     }
@@ -51,13 +51,10 @@ html_code = '''<!DOCTYPE html>
     .input-field:focus {
       border-color: #8b5cf6;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
 
-    .input-field::placeholder {
-      color: #6b7280;
-    }
-
+    /* Şəkildəki kimi gradient başlıq */
     .gradient-header {
       background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
       color: white;
@@ -67,15 +64,15 @@ html_code = '''<!DOCTYPE html>
       text-align: center;
     }
 
+    /* Tablar - şəkildəki kimi */
     .tabs {
       display: flex;
       justify-content: space-around;
-      background: #1a1a1a;
+      background: white;
       padding: 12px;
       border-radius: 50px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .tab {
@@ -83,7 +80,7 @@ html_code = '''<!DOCTYPE html>
       border-radius: 25px;
       font-size: 13px;
       font-weight: 500;
-      color: #9ca3af;
+      color: #6b7280;
       transition: all 0.2s;
       border: none;
       background: transparent;
@@ -94,16 +91,16 @@ html_code = '''<!DOCTYPE html>
       color: white;
     }
 
+    /* User Card - şəkildəki kimi */
     .user-card {
-      background: #1a1a1a;
+      background: white;
       border-radius: 20px;
       padding: 24px 20px;
       margin-bottom: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
       text-align: center;
       position: relative;
       animation: slideUp 0.4s ease;
-      border: 1px solid rgba(255,255,255,0.05);
     }
 
     @keyframes slideUp {
@@ -125,11 +122,12 @@ html_code = '''<!DOCTYPE html>
       text-transform: uppercase;
     }
 
+    /* Avatar - şəkildəki kimi mavi dairə */
     .avatar-circle {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      background: #3b82f6;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -138,44 +136,37 @@ html_code = '''<!DOCTYPE html>
       font-weight: bold;
       color: white;
       position: relative;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
     .status-badge {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
+      background: #dbeafe;
+      color: #3b82f6;
       padding: 4px 12px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 500;
-      border: 1px solid rgba(59, 130, 246, 0.2);
     }
 
     .instagram-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(219, 39, 119, 0.2) 100%);
-      color: #c084fc;
+      background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%);
+      color: #9333ea;
       padding: 10px 24px;
       border-radius: 25px;
       text-decoration: none;
       font-weight: 500;
       font-size: 14px;
       margin-top: 12px;
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      transition: all 0.2s;
-    }
-
-    .instagram-btn:hover {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(219, 39, 119, 0.3) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.2);
     }
 
     .time-ago {
-      color: #6b7280;
+      color: #9ca3af;
       font-size: 12px;
       margin-top: 12px;
       display: flex;
@@ -184,6 +175,7 @@ html_code = '''<!DOCTYPE html>
       gap: 4px;
     }
 
+    /* Qeydiyyat formu */
     .register-btn {
       width: 100%;
       background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
@@ -199,11 +191,6 @@ html_code = '''<!DOCTYPE html>
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: opacity 0.2s;
-    }
-
-    .register-btn:hover {
-      opacity: 0.9;
     }
 
     .radio-group {
@@ -216,28 +203,27 @@ html_code = '''<!DOCTYPE html>
       flex: 1;
       text-align: center;
       padding: 12px;
-      border: 2px solid #333;
+      border: 2px solid #e5e7eb;
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s;
-      color: #9ca3af;
-      background: #1a1a1a;
     }
 
     .radio-label.active {
       border-color: #9333ea;
-      background: rgba(139, 92, 246, 0.2);
-      color: #c084fc;
+      background: #f3e8ff;
+      color: #9333ea;
     }
 
     input[type="radio"] {
       display: none;
     }
 
+    /* Giriş ekranı */
     .login-screen {
       position: fixed;
       inset: 0;
-      background: #0a0a0a;
+      background: #f8f9fa;
       z-index: 1000;
       display: flex;
       flex-direction: column;
@@ -247,13 +233,12 @@ html_code = '''<!DOCTYPE html>
     }
 
     .login-card {
-      background: #1a1a1a;
+      background: white;
       padding: 32px 24px;
       border-radius: 24px;
       width: 100%;
       max-width: 360px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
 
     .hidden {
@@ -267,6 +252,7 @@ html_code = '''<!DOCTYPE html>
       padding-bottom: 100px;
     }
 
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -280,28 +266,12 @@ html_code = '''<!DOCTYPE html>
       opacity: 0;
       transition: all 0.3s;
       z-index: 1001;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
-    }
-
-    label {
-      color: #9ca3af;
-    }
-
-    h2, h3 {
-      color: #f3f4f6 !important;
-    }
-
-    p {
-      color: #9ca3af;
-    }
-
-    .stats-number {
-      color: #f3f4f6 !important;
     }
   </style>
 </head>
@@ -314,29 +284,29 @@ html_code = '''<!DOCTYPE html>
         <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #9333ea, #db2777); border-radius: 20px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
           <svg width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         </div>
-        <h2 style="margin: 0; font-size: 24px;">Xoş Gəlmisiniz</h2>
-        <p style="margin-top: 8px; font-size: 14px;">Davam etmək üçün qeydiyyatdan keçin</p>
+        <h2 style="margin: 0; color: #111; font-size: 24px;">Xoş Gəlmisiniz</h2>
+        <p style="color: #6b7280; margin-top: 8px; font-size: 14px;">Davam etmək üçün qeydiyyatdan keçin</p>
       </div>
 
       <form id="registerForm" onsubmit="handleRegister(event)">
         <div style="margin-bottom: 16px;">
-          <label style="font-size: 13px; font-weight: 500;">Ad</label>
+          <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Ad</label>
           <input type="text" id="firstName" required class="input-field" placeholder="Adınızı daxil edin">
         </div>
 
         <div style="margin-bottom: 16px;">
-          <label style="font-size: 13px; font-weight: 500;">Soyad</label>
+          <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Soyad</label>
           <input type="text" id="lastName" required class="input-field" placeholder="Soyadınızı daxil edin">
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
           <div>
-            <label style="font-size: 13px; font-weight: 500;">Yaş</label>
+            <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Yaş</label>
             <input type="number" id="age" min="10" max="100" required class="input-field" placeholder="25">
           </div>
           <div>
-            <label style="font-size: 13px; font-weight: 500;">Cins</label>
-            <select id="gender" required class="input-field" style="appearance: none; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%226b7280%22 viewBox=%220 0 16 16%22><path d=%22M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;">
+            <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Cins</label>
+            <select id="gender" required class="input-field" style="appearance: none; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%22%236b7280%22 viewBox=%220 0 16 16%22><path d=%22M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;">
               <option value="" disabled selected>Seçin</option>
               <option value="Kişi">Kişi</option>
               <option value="Qadın">Qadın</option>
@@ -345,7 +315,7 @@ html_code = '''<!DOCTYPE html>
         </div>
 
         <div style="margin-bottom: 16px;">
-          <label style="font-size: 13px; font-weight: 500;">Ailə Vəziyyəti</label>
+          <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Ailə Vəziyyəti</label>
           <div class="radio-group">
             <label class="radio-label active" onclick="selectStatus(this, 'Subay')">
               <input type="radio" name="status" value="Subay" checked>
@@ -359,9 +329,9 @@ html_code = '''<!DOCTYPE html>
         </div>
 
         <div style="margin-bottom: 16px;">
-          <label style="font-size: 13px; font-weight: 500;">Instagram</label>
+          <label style="font-size: 13px; color: #6b7280; font-weight: 500;">Instagram</label>
           <div style="position: relative;">
-            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 16px;">@</span>
+            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 16px;">@</span>
             <input type="text" id="instagram" required class="input-field" style="padding-left: 36px;" placeholder="istifadeci_adi">
           </div>
         </div>
@@ -374,7 +344,7 @@ html_code = '''<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- Ana Ekran -->
+  <!-- Ana Ekran (Qeydiyyatdan keçəndən sonra görünür) -->
   <div id="mainScreen" class="hidden">
     <div class="container">
       <!-- Başlıq -->
@@ -386,11 +356,11 @@ html_code = '''<!DOCTYPE html>
       <!-- Statistika -->
       <div style="display: flex; gap: 16px; margin-bottom: 20px;">
         <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
-          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="totalCount">0</div>
+          <div style="font-size: 24px; font-weight: bold; color: #111;" id="totalCount">0</div>
           <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">İstifadəçi</div>
         </div>
         <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
-          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="todayCount">0</div>
+          <div style="font-size: 24px; font-weight: bold; color: #111;" id="todayCount">0</div>
           <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Bu gün</div>
         </div>
       </div>
@@ -408,7 +378,7 @@ html_code = '''<!DOCTYPE html>
       <div id="usersList"></div>
 
       <!-- Boş state -->
-      <div id="emptyState" style="text-align: center; padding: 40px; color: #6b7280; display: none;">
+      <div id="emptyState" style="text-align: center; padding: 40px; color: #9ca3af; display: none;">
         <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         <p>Hələ heç kim qeydiyyatdan keçməyib</p>
       </div>
@@ -419,6 +389,7 @@ html_code = '''<!DOCTYPE html>
   <div id="toast" class="toast">Qeydiyyat tamamlandı!</div>
 
   <script>
+    // Konfiqurasiya
     const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
     const ENTRY_FIRSTNAME = "entry.1178680962";
     const ENTRY_LASTNAME = "entry.1475120277";
@@ -435,6 +406,7 @@ html_code = '''<!DOCTYPE html>
     let users = [];
     let currentFilter = 'all';
 
+    // Başlanğıc yoxlama
     function init() {
       const isRegistered = localStorage.getItem(LS_REGISTERED);
       const savedUser = localStorage.getItem(LS_KEY);
@@ -496,14 +468,18 @@ html_code = '''<!DOCTYPE html>
         isNew: true
       };
 
+      // LocalStorage-a yaz
       localStorage.setItem(LS_KEY, JSON.stringify(currentUser));
       localStorage.setItem(LS_REGISTERED, "true");
 
+      // Google Forms-a göndər (background-da)
       sendToGoogleForm(currentUser);
 
+      // Ani olaraq göstər
       showMainScreen();
       showToast("Qeydiyyat tamamlandı!");
       
+      // Yeni istifadəçini əlavə et və göstər
       addUser(currentUser);
     }
 
@@ -528,33 +504,49 @@ html_code = '''<!DOCTYPE html>
     }
 
     function addUser(user) {
+      // Əvvəlki istifadəçiləri yüklə
       let existing = JSON.parse(localStorage.getItem(LS_USERS) || "[]");
+      
+      // Yeni istifadəçini əlavə et (əvvələ)
       existing.unshift(user);
+      
+      // Yadda saxla
       localStorage.setItem(LS_USERS, JSON.stringify(existing));
       users = existing;
+      
+      // Göstər
       renderUsers();
     }
 
     function loadUsers() {
+      // LocalStorage-dan yüklə
       const saved = localStorage.getItem(LS_USERS);
       if (saved) {
         users = JSON.parse(saved);
       }
       
+      // Cari istifadəçini də əlavə et (əgər yoxdursa)
       if (currentUser && !users.find(u => u.id === currentUser.id)) {
         users.unshift(currentUser);
       }
       
       renderUsers();
       
+      // Background-da yenilə (əgər internet varsa)
       if (navigator.onLine) {
         fetchUsersFromAPI();
       }
     }
 
     async function fetchUsersFromAPI() {
+      // Burada API çağırışı olacaq (indi simulyasiya edirik)
+      // Gerçək API URL-nizi əlavə edin
       try {
-        // API çağırışı buraya
+        // const response = await fetch('YOUR_API_URL');
+        // const data = await response.json();
+        // users = data.users;
+        // localStorage.setItem(LS_USERS, JSON.stringify(users));
+        // renderUsers();
       } catch (e) {
         console.log("API əlçatan deyil");
       }
@@ -566,11 +558,13 @@ html_code = '''<!DOCTYPE html>
       const totalCount = document.getElementById('totalCount');
       const todayCount = document.getElementById('todayCount');
 
+      // Filter tətbiq et
       let filtered = users.filter(u => {
         if (currentFilter === 'all') return true;
         return u.gender === currentFilter || u.status === currentFilter;
       });
 
+      // Sayğacları yenilə
       totalCount.textContent = users.length;
       const today = users.filter(u => {
         const ts = u.timestamp || 0;
@@ -603,7 +597,7 @@ html_code = '''<!DOCTYPE html>
               ${initials}
             </div>
             
-            <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600;">${fullName}</h3>
+            <h3 style="margin: 0 0 4px 0; color: #111; font-size: 18px; font-weight: 600;">${fullName}</h3>
             <p style="margin: 0 0 12px 0; color: #6b7280; font-size: 13px;">${infoText}</p>
             
             <a href="https://instagram.com/${user.instagram}" target="_blank" class="instagram-btn">
@@ -619,6 +613,7 @@ html_code = '''<!DOCTYPE html>
         `;
       }).join('');
 
+      // Yeni badge-ləri 5 saniyə sonra sil
       setTimeout(() => {
         users.forEach(u => u.isNew = false);
         localStorage.setItem(LS_USERS, JSON.stringify(users));
@@ -627,8 +622,11 @@ html_code = '''<!DOCTYPE html>
 
     function filterUsers(type, btn) {
       currentFilter = type;
+      
+      // Tab UI yenilə
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
+      
       renderUsers();
     }
 
@@ -639,10 +637,9 @@ html_code = '''<!DOCTYPE html>
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
+    // Başlat
     init();
   </script>
 
 </body>
-</html>'''
-
-print(html_code)
+</html>
