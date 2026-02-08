@@ -8,45 +8,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root { color-scheme: dark; }
-
-html {
-  background: #0f172a !important;
-  color: #e2e8f0 !important;
-}
-html, body { min-height: 100%; }
-
-body {
-  background-color: #0f172a !important;
-  color: #e2e8f0 !important;
-}
-
-input, select, textarea, button { color-scheme: dark; }
-select, option { background: #0f172a !important; color: #e2e8f0 !important; }
-
     :root {
       color-scheme: dark;
     }
 
     * {
       -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
-    html {
-  background: #0f172a !important;
-  color: #e2e8f0 !important;
-}
-html, body {
-  min-height: 100%;
-}
-    input, select, textarea, button {
-  color-scheme: dark;
-}
-
-select, option {
-  background: #0f172a !important;
-  color: #e2e8f0 !important;
-}
-
+    
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #0f172a;
@@ -57,7 +27,6 @@ select, option {
       overscroll-behavior-y: contain;
     }
 
-    /* Mobilə uyğun arxa fon */
     .bg-gradient-mobile {
       position: fixed;
       top: 0;
@@ -99,13 +68,40 @@ select, option {
     }
 
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.95); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+      }
+    }
+
+    @keyframes newUserSlide {
+      0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+      }
+      60% {
+        transform: translateY(5px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .user-card { 
-      animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
+      animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
       opacity: 0; 
+    }
+
+    .new-user-card {
+      animation: newUserSlide 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      border: 2px solid #8b5cf6;
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+      z-index: 10;
     }
 
     @keyframes pulse-glow {
@@ -119,7 +115,23 @@ select, option {
       animation: pulse-glow 2s infinite; 
     }
 
-    /* Pull to refresh styles */
+    .new-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 20;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
     .pull-to-refresh {
       position: fixed;
       top: -60px;
@@ -150,7 +162,22 @@ select, option {
       to { transform: rotate(360deg); }
     }
 
-    /* Skeleton loading */
+    .skeleton-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.9);
+      z-index: 30;
+      display: none;
+      border-radius: 1rem;
+    }
+
+    .skeleton-overlay.active {
+      display: block;
+    }
+
     .skeleton {
       background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
       background-size: 200% 100%;
@@ -185,7 +212,6 @@ select, option {
       margin: 0 auto;
     }
 
-    /* Offline indicator */
     .offline-indicator {
       position: fixed;
       top: 0;
@@ -205,11 +231,10 @@ select, option {
       transform: translateY(0);
     }
 
-    /* Image modal */
     .image-modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       backdrop-filter: blur(10px);
       z-index: 1000;
       display: flex;
@@ -256,13 +281,11 @@ select, option {
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* Mobil üçün scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-    /* Mobil touch optimallaşdırma */
     @media (max-width: 640px) {
       .glass-input {
         font-size: 16px !important;
@@ -272,9 +295,13 @@ select, option {
       .user-card {
         margin-bottom: 1rem;
       }
+
+      .avatar-container {
+        width: 80px !important;
+        height: 80px !important;
+      }
     }
 
-    /* Instagram link hover effekti */
     .instagram-link {
       position: relative;
       overflow: hidden;
@@ -295,11 +322,12 @@ select, option {
       left: 100%;
     }
 
-    /* Avatar hover zoom */
     .avatar-container {
       position: relative;
       cursor: pointer;
       transition: transform 0.3s ease;
+      width: 96px;
+      height: 96px;
     }
 
     .avatar-container:hover {
@@ -327,74 +355,110 @@ select, option {
       opacity: 1;
     }
 
-    /* Yeni istifadəçi animasiyası */
-    @keyframes newUserSlide {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      50% {
-        transform: translateY(10px) scale(1.02);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    #usersGrid {
+      display: grid !important;
+      min-height: 200px;
+      position: relative;
     }
 
-    .new-user-card {
-      animation: newUserSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      border: 2px solid #8b5cf6;
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    #usersGrid.hidden {
+      display: grid !important;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .new-badge {
-      position: absolute;
-      top: -10px;
+    .empty-state-large {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .empty-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .empty-icon svg {
+      width: 60px;
+      height: 60px;
+      color: #8b5cf6;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Sync indicator */
+    .sync-indicator {
+      position: fixed;
+      bottom: 80px;
       left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(139, 92, 246, 0.9);
       color: white;
-      padding: 4px 12px;
+      padding: 8px 16px;
       border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+      font-size: 12px;
+      font-weight: 500;
+      z-index: 50;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* Mobil üçün əlavə düzəlişlər */
-    @media (max-width: 768px) {
-      .user-card {
-        margin-bottom: 1.5rem;
-      }
-      
-      .avatar-container {
-        width: 80px;
-        height: 80px;
-      }
+    .sync-indicator.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .sync-indicator.syncing::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
   </style>
 </head>
 
 <body class="antialiased min-h-screen">
 
-  <!-- Arxa fon -->
   <div class="bg-gradient-mobile"></div>
 
-  <!-- Offline indicator -->
   <div id="offlineIndicator" class="offline-indicator">
     <span>⚠️ İnternet bağlantısı yoxdur</span>
   </div>
 
-  <!-- Pull to refresh -->
+  <div id="syncIndicator" class="sync-indicator syncing">
+    <span>Sinxronizasiya...</span>
+  </div>
+
   <div id="pullToRefresh" class="pull-to-refresh">
     <div class="pull-to-refresh-spinner"></div>
   </div>
 
-  <!-- Image Modal -->
   <div id="imageModal" class="image-modal" onclick="closeModal()">
     <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -404,7 +468,6 @@ select, option {
     <img id="modalImage" src="" alt="Profile">
   </div>
 
-  <!-- Header -->
   <nav class="fixed top-0 w-full z-50 glass border-b border-white/10 safe-area-top">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14 sm:h-16">
@@ -434,7 +497,6 @@ select, option {
 
   <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
-    <!-- Hero + Form -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
 
       <div class="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6">
@@ -534,39 +596,41 @@ select, option {
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
-      <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
-      <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
-        <button onclick="filterUsers('all')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap flex-shrink-0">Hamısı</button>
-        <button onclick="filterUsers('Kişi')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Kişi</button>
-        <button onclick="filterUsers('Qadın')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Qadın</button>
-        <button onclick="filterUsers('Subay')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Subay</button>
-        <button onclick="filterUsers('Evli')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Evli</button>
+    <div id="usersSection" class="hidden">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
+        <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
+        <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
+          <button onclick="filterUsers('all')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap flex-shrink-0">Hamısı</button>
+          <button onclick="filterUsers('Kişi')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Kişi</button>
+          <button onclick="filterUsers('Qadın')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Qadın</button>
+          <button onclick="filterUsers('Subay')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Subay</button>
+          <button onclick="filterUsers('Evli')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Evli</button>
+        </div>
+      </div>
+
+      <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 relative">
+        <div id="skeletonOverlay" class="skeleton-overlay">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 h-full p-4">
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Loading Skeleton (hidden by default) -->
-    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-      <!-- Skeleton cards will be generated by JS -->
-    </div>
-
-    <!-- Grid -->
-    <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
-
-    <div id="emptyState" class="hidden text-center py-12 sm:py-20">
-      <div class="inline-block p-3 sm:p-4 rounded-full bg-white/5 mb-3 sm:mb-4">
-        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    <div id="emptyState" class="empty-state-large">
+      <div class="empty-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
       </div>
-      <p class="text-gray-400 text-sm sm:text-base">Hələ heç kim qeydiyyatdan keçməyib.</p>
+      <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">Hələ heç kim qeydiyyatdan keçməyib</h3>
+      <p class="text-gray-400 max-w-md mb-6">İlk qeydiyyatdan keçən siz olun! Formu dolduraraq icmanın bir hissəsi olun.</p>
+      <button onclick="scrollToForm()" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-all active:scale-95">
+        Qeydiyyatdan Keç
+      </button>
     </div>
 
   </main>
 
-  <!-- Toast -->
   <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
     <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl flex items-center gap-3">
       <div class="bg-green-500/20 p-1.5 sm:p-2 rounded-full flex-shrink-0">
@@ -582,11 +646,10 @@ select, option {
   </div>
 
   <script>
-    /***********************
-     *  CONFIGURATION      *
-     ***********************/
+    // ==========================================
+    // KONFIQURASIYA
+    // ==========================================
     const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
-    const API_URL = "https://script.google.com/macros/s/AKfycbw317fB5EGKQqPxuk3A4cIGqs3yttMfI8VCPinR8bn1oUYDqR56B8VylkSEDeYzqnj7/exec";
     const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo";
 
     const ENTRY_FIRSTNAME = "entry.1178680962";
@@ -596,40 +659,38 @@ select, option {
     const ENTRY_GENDER    = "entry.1632031862";
     const ENTRY_STATUS    = "entry.222463848";
 
-    /***********************
-     *  STATE & UTILS      *
-     ***********************/
+    // ==========================================
+    // STATE
+    // ==========================================
     const LS_KEY = "socialconnect_users_v1";
+    const LS_LAST_SYNC = "socialconnect_last_sync";
+    const LS_MY_ID = "socialconnect_my_id";
+    
     let users = [];
     let currentFilter = "all";
     let isLoading = false;
     let lastAddedUserId = null;
+    let hasRegistered = false;
+    let myUserId = null;
 
     const grid = document.getElementById('usersGrid');
-    const skeletonLoader = document.getElementById('skeletonLoader');
+    const usersSection = document.getElementById('usersSection');
+    const emptyState = document.getElementById('emptyState');
+    const skeletonOverlay = document.getElementById('skeletonOverlay');
     const form = document.getElementById('registerForm');
     const totalCountEl = document.getElementById('total-users-count');
     const onlineCountEl = document.getElementById('online-count');
-    const emptyState = document.getElementById('emptyState');
     const offlineIndicator = document.getElementById('offlineIndicator');
     const pullToRefresh = document.getElementById('pullToRefresh');
+    const syncIndicator = document.getElementById('syncIndicator');
 
-    /**
-     * AVATAR GENERATION - DiceBear və ya Instagram profil şəkli
-     */
-    function getAvatar(firstName, lastName, gender, instagram = '') {
-      // Əgər Instagram istifadəçi adı varsa, profil şəklini yoxla
-      if (instagram) {
-        const ig = instagram.replace("@", "").trim();
-        // Instagram profil şəkli üçün URL (bu işləməyə bilər, amma cəhd edək)
-        // Alternativ: https://www.instagram.com/${ig}/?__a=1&__d=dis (API ilə)
-        // Sadəcə ehtimal üçün placeholder
-      }
-      
+    // ==========================================
+    // UTILS
+    // ==========================================
+    function getAvatar(firstName, lastName, gender) {
       const name = `${firstName || ''} ${lastName || ''}`.trim();
       const seed = encodeURIComponent(name || 'User');
       
-      // Cinsə görə arxa fon rəngləri
       let bgColors;
       if (gender === 'Kişi') {
         bgColors = '3b82f6,2563eb,1d4ed8';
@@ -639,7 +700,6 @@ select, option {
         bgColors = '8b5cf6,7c3aed,6d28d9';
       }
       
-      // DiceBear initials API - SVG format
       return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=${bgColors}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
     }
 
@@ -658,138 +718,21 @@ select, option {
       return `${Math.floor(days / 365)} il əvvəl`;
     }
 
-    /***********************
-     *  SKELETON LOADER    *
-     ***********************/
-    function showSkeleton() {
-      skeletonLoader.innerHTML = '';
-      const count = window.innerWidth < 640 ? 2 : (window.innerWidth < 1024 ? 4 : 8);
-      
-      for (let i = 0; i < count; i++) {
-        const skeleton = document.createElement('div');
-        skeleton.className = 'glass rounded-2xl p-6 skeleton-card flex flex-col items-center justify-center';
-        skeleton.innerHTML = `
-          <div class="skeleton skeleton-avatar mb-4"></div>
-          <div class="skeleton skeleton-text w-3/4 mb-2"></div>
-          <div class="skeleton skeleton-text short mb-4"></div>
-          <div class="skeleton skeleton-text w-1/2"></div>
-        `;
-        skeletonLoader.appendChild(skeleton);
-      }
-      
-      skeletonLoader.classList.remove('hidden');
-      grid.classList.add('hidden');
+    function scrollToForm() {
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      form.parentElement.classList.add('ring-2', 'ring-purple-500');
+      setTimeout(() => {
+        form.parentElement.classList.remove('ring-2', 'ring-purple-500');
+      }, 1000);
     }
 
-    function hideSkeleton() {
-      skeletonLoader.classList.add('hidden');
-      grid.classList.remove('hidden');
+    function generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
-    /***********************
-     *  PULL TO REFRESH    *
-     ***********************/
-    let touchStartY = 0;
-    let touchEndY = 0;
-    const pullThreshold = 80;
-
-    document.addEventListener('touchstart', e => {
-      if (window.scrollY === 0) {
-        touchStartY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    document.addEventListener('touchmove', e => {
-      if (window.scrollY === 0 && touchStartY > 0) {
-        touchEndY = e.touches[0].clientY;
-        const pullDistance = touchEndY - touchStartY;
-        
-        if (pullDistance > 0 && pullDistance < pullThreshold) {
-          pullToRefresh.style.top = `${-60 + (pullDistance * 0.5)}px`;
-        } else if (pullDistance >= pullThreshold) {
-          pullToRefresh.classList.add('visible');
-        }
-      }
-    }, { passive: true });
-
-    document.addEventListener('touchend', () => {
-      if (pullToRefresh.classList.contains('visible')) {
-        refreshData();
-        setTimeout(() => {
-          pullToRefresh.classList.remove('visible');
-          pullToRefresh.style.top = '-60px';
-        }, 1000);
-      } else {
-        pullToRefresh.style.top = '-60px';
-      }
-      touchStartY = 0;
-    });
-
-    /***********************
-     *  OFFLINE DETECTION  *
-     ***********************/
-    function updateOnlineStatus() {
-      if (!navigator.onLine) {
-        offlineIndicator.classList.add('visible');
-      } else {
-        offlineIndicator.classList.remove('visible');
-      }
-    }
-
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
-
-    /***********************
-     *  IMAGE MODAL        *
-     ***********************/
-    function openModal(imageSrc) {
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      modalImg.src = imageSrc;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('imageModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    /***********************
-     *  DATA FETCHING      *
-     ***********************/
-    async function fetchUsersFromAPI() {
-      if (!API_GET_URL || API_GET_URL.includes("API_GET_URL")) {
-        return loadUsers();
-      }
-      
-      try {
-        const res = await fetch(API_GET_URL + "&t=" + Date.now());
-        const data = await res.json();
-
-        if (!data.ok || !Array.isArray(data.users)) {
-          throw new Error("API-dən düzgün data gəlmədi");
-        }
-
-        return data.users.map(u => ({
-          id: u.id || Date.now() + Math.random(),
-          firstName: u.FirstName || u.firstName || u.ad || u.Ad || "",
-          lastName: u.LastName || u.lastName || u.soyad || u.Soyad || "",
-          age: u.Age || u.age || u.yas || u.Yaş || "",
-          gender: u.Gender || u.gender || u.cins || u.Cins || "Digər",
-          status: u.Status || u.status || u.veziyyet || u.Vəziyyət || "Subay",
-          instagram: u.Instagram || u.instagram || u.ig || "",
-          timestamp: u.Timestamp || u.timestamp || Date.now()
-        }));
-
-      } catch (e) {
-        console.error("API fetch xətası:", e);
-        return loadUsers();
-      }
-    }
-
+    // ==========================================
+    // LOCAL STORAGE
+    // ==========================================
     function loadUsers() {
       try {
         const raw = localStorage.getItem(LS_KEY);
@@ -803,42 +746,185 @@ select, option {
 
     function saveUsers() {
       localStorage.setItem(LS_KEY, JSON.stringify(users));
+      localStorage.setItem(LS_LAST_SYNC, Date.now().toString());
     }
 
-    /***********************
-     *  RENDERING          *
-     ***********************/
+    function getMyId() {
+      let id = localStorage.getItem(LS_MY_ID);
+      if (!id) {
+        id = generateId();
+        localStorage.setItem(LS_MY_ID, id);
+      }
+      return id;
+    }
+
+    // ==========================================
+    // API & SYNC
+    // ==========================================
+    async function fetchUsersFromAPI() {
+      if (!API_GET_URL || API_GET_URL.includes("API_GET_URL")) {
+        return [];
+      }
+      
+      try {
+        const res = await fetch(API_GET_URL + "&t=" + Date.now());
+        const data = await res.json();
+
+        if (!data.ok || !Array.isArray(data.users)) {
+          throw new Error("API-dən düzgün data gəlmədi");
+        }
+
+        return data.users.map(u => ({
+          id: u.id || generateId(),
+          firstName: u.FirstName || u.firstName || u.ad || u.Ad || "",
+          lastName: u.LastName || u.lastName || u.soyad || u.Soyad || "",
+          age: u.Age || u.age || u.yas || u.Yaş || "",
+          gender: u.Gender || u.gender || u.cins || u.Cins || "Digər",
+          status: u.Status || u.status || u.veziyyet || u.Vəziyyət || "Subay",
+          instagram: u.Instagram || u.instagram || u.ig || "",
+          timestamp: u.Timestamp || u.timestamp || Date.now(),
+          source: 'api'
+        }));
+
+      } catch (e) {
+        console.error("API fetch xətası:", e);
+        return [];
+      }
+    }
+
+    async function sendToGoogleForm(payload) {
+      const fd = new FormData();
+      fd.append(ENTRY_FIRSTNAME, payload.firstName);
+      fd.append(ENTRY_LASTNAME,  payload.lastName);
+      fd.append(ENTRY_AGE,       payload.age);
+      fd.append(ENTRY_GENDER,    payload.gender);
+      fd.append(ENTRY_STATUS,    payload.status);
+      fd.append(ENTRY_INSTAGRAM, payload.instagram);
+      fd.append('userId', payload.id); // Unikal ID göndər
+
+      await fetch(FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: fd
+      });
+      return { ok: true };
+    }
+
+    // ==========================================
+    // SINXRONIZASIYA (ƏSAS FUNKSIYA)
+    // ==========================================
+    async function syncUsers() {
+      if (isLoading) return;
+      isLoading = true;
+      
+      showSyncIndicator(true);
+      
+      try {
+        // 1. Local-dən yüklə
+        const localUsers = loadUsers();
+        
+        // 2. API-dən çək
+        const apiUsers = await fetchUsersFromAPI();
+        
+        // 3. Birləşdir (conflict resolution: ən yeni qalib gəlir)
+        const merged = mergeUsers(localUsers, apiUsers);
+        
+        // 4. Yadda saxla
+        users = merged;
+        saveUsers();
+        
+        // 5. UI yenilə
+        updateUI();
+        
+        console.log(`Sinxronizasiya tamamlandı: ${users.length} istifadəçi`);
+        
+      } catch (e) {
+        console.error("Sinxronizasiya xətası:", e);
+        // API işləməsə, local ilə davam et
+        users = loadUsers();
+        updateUI();
+      } finally {
+        isLoading = false;
+        showSyncIndicator(false);
+      }
+    }
+
+    function mergeUsers(local, api) {
+      const merged = new Map();
+      
+      // Local istifadəçiləri əlavə et
+      local.forEach(u => {
+        merged.set(u.id, u);
+      });
+      
+      // API istifadəçilərini əlavə et (yeni və ya yenilənmiş)
+      api.forEach(u => {
+        const existing = merged.get(u.id);
+        if (!existing) {
+          // Yeni istifadəçi
+          merged.set(u.id, u);
+        } else if (u.timestamp > existing.timestamp) {
+          // API-də daha yeni versiya var
+          merged.set(u.id, u);
+        }
+        // Əks halda local saxlanılır (local daha yenidirsə)
+      });
+      
+      return Array.from(merged.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    }
+
+    function showSyncIndicator(show) {
+      if (show) {
+        syncIndicator.classList.add('visible');
+      } else {
+        syncIndicator.classList.remove('visible');
+      }
+    }
+
+    // ==========================================
+    // UI RENDER
+    // ==========================================
+    function updateUI() {
+      if (users.length > 0 || hasRegistered) {
+        usersSection.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        renderUsers();
+      } else {
+        usersSection.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+      }
+      
+      totalCountEl.innerText = users.length;
+      const todayCount = users.filter(u => u.timestamp && (Date.now() - u.timestamp) < 86400000).length;
+      onlineCountEl.innerText = todayCount;
+    }
+
     function renderUsers() {
-      grid.innerHTML = "";
+      const overlay = grid.querySelector('.skeleton-overlay');
+      grid.innerHTML = '';
+      if (overlay) grid.appendChild(overlay);
 
       const filtered = users.filter(u => {
         if (currentFilter === "all") return true;
         return u.gender === currentFilter || u.status === currentFilter;
       });
 
-      filtered.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-      totalCountEl.innerText = users.length;
-      const todayCount = users.filter(u => u.timestamp && (Date.now() - u.timestamp) < 86400000).length;
-      onlineCountEl.innerText = todayCount;
-
-      if (filtered.length === 0) {
-        emptyState.classList.remove("hidden");
-        return;
-      } else {
-        emptyState.classList.add("hidden");
-      }
+      // Yeni əlavə olunan ən üstdə
+      filtered.sort((a, b) => {
+        if (a.id === lastAddedUserId) return -1;
+        if (b.id === lastAddedUserId) return 1;
+        return (b.timestamp || 0) - (a.timestamp || 0);
+      });
 
       filtered.forEach((user, index) => {
         const isNew = user.id === lastAddedUserId;
         const isRecent = user.timestamp && (Date.now() - user.timestamp) < 60000;
-        const delay = index * 100;
+        const delay = isNew ? 0 : index * 100;
         const ig = (user.instagram || "").replace("@", "");
         const igLink = ig ? `https://instagram.com/${ig}` : "#";
 
         const card = document.createElement("div");
         
-        // Yeni əlavə olunan istifadəçi üçün xüsusi klas
         if (isNew) {
           card.className = `user-card glass rounded-2xl p-4 sm:p-6 relative group hover:bg-white/10 transition-all duration-300 new-user-card`;
         } else {
@@ -854,9 +940,8 @@ select, option {
         const displayStatus = user.status || "Subay";
         const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300';
 
-        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender, user.instagram);
+        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender);
 
-        // Yeni badge əlavə et
         const newBadge = isNew ? '<div class="new-badge">Yeni</div>' : '';
 
         card.innerHTML = `
@@ -899,22 +984,109 @@ select, option {
         grid.appendChild(card);
       });
 
-      // Yeni əlavə olunan istifadəçini səhifənin başına scroll et
+      // Yeni istifadəçini scroll et
       if (lastAddedUserId) {
         setTimeout(() => {
           const newCard = document.querySelector('.new-user-card');
           if (newCard) {
             newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
-          // 5 saniyə sonra "yeni" statusunu sil
           setTimeout(() => {
             lastAddedUserId = null;
-            renderUsers();
           }, 5000);
         }, 100);
       }
     }
 
+    function showSkeleton() {
+      const container = skeletonOverlay.querySelector('.grid');
+      container.innerHTML = '';
+      const count = window.innerWidth < 640 ? 2 : (window.innerWidth < 1024 ? 4 : 8);
+      
+      for (let i = 0; i < count; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'glass rounded-2xl p-6 skeleton-card flex flex-col items-center justify-center';
+        skeleton.innerHTML = `
+          <div class="skeleton skeleton-avatar mb-4"></div>
+          <div class="skeleton skeleton-text w-3/4 mb-2"></div>
+          <div class="skeleton skeleton-text short mb-4"></div>
+          <div class="skeleton skeleton-text w-1/2"></div>
+        `;
+        container.appendChild(skeleton);
+      }
+      
+      skeletonOverlay.classList.add('active');
+    }
+
+    function hideSkeleton() {
+      skeletonOverlay.classList.remove('active');
+    }
+
+    // ==========================================
+    // FORM HANDLING
+    // ==========================================
+    async function handleRegister(e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const age       = document.getElementById('age').value;
+      const gender    = document.getElementById('gender').value;
+      const status    = document.querySelector('input[name="status"]:checked').value;
+      const instagram = document.getElementById('instagram').value.trim().replace("@","");
+
+      if (!firstName || !lastName || !age || !gender || !instagram) {
+        showToast(false, "Bütün xanaları doldurun.");
+        return;
+      }
+
+      // Unikal ID yarat
+      myUserId = generateId();
+      localStorage.setItem(LS_MY_ID, myUserId);
+
+      const newUser = {
+        id: myUserId,
+        firstName,
+        lastName,
+        age,
+        gender,
+        status,
+        instagram,
+        timestamp: Date.now(),
+        source: 'local'
+      };
+
+      lastAddedUserId = newUser.id;
+      hasRegistered = true;
+      
+      // 1. Local-ə əlavə et
+      users.unshift(newUser);
+      saveUsers();
+      
+      // 2. Dərhal göstər (API gözləmədən)
+      updateUI();
+      showToast(true, "Qeydiyyat tamamlandı!");
+      
+      // 3. Formu təmizlə
+      form.reset();
+
+      // 4. Arxa planda Google Forms-a göndər (async, gözləmədən)
+      try {
+        await sendToGoogleForm(newUser);
+        console.log("Google Forms-a göndərildi");
+      } catch (err) {
+        console.error("Forms xətası:", err);
+      }
+
+      // 5. 5 saniyə sonra sinxronizasiya et (yeni data API-də görünsün)
+      setTimeout(async () => {
+        await syncUsers();
+      }, 5000);
+    }
+
+    // ==========================================
+    // EVENT HANDLERS
+    // ==========================================
     function showToast(ok=true, msg="Qeydiyyat tamamlandı.") {
       const toast = document.getElementById('toast');
       toast.querySelector("h4").textContent = ok ? "Uğurlu!" : "Xəta!";
@@ -944,119 +1116,111 @@ select, option {
     }
 
     async function refreshData() {
-      if (isLoading) return;
-      isLoading = true;
-      
       showSkeleton();
-      
-      try {
-        const apiUsers = await fetchUsersFromAPI();
-        if (apiUsers.length > 0) {
-          users = apiUsers;
-          saveUsers();
+      await syncUsers();
+      hideSkeleton();
+      showToast(true, "Yeniləndi");
+    }
+
+    // Pull to refresh
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const pullThreshold = 80;
+
+    document.addEventListener('touchstart', e => {
+      if (window.scrollY === 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (window.scrollY === 0 && touchStartY > 0) {
+        touchEndY = e.touches[0].clientY;
+        const pullDistance = touchEndY - touchStartY;
+        
+        if (pullDistance > 0 && pullDistance < pullThreshold) {
+          pullToRefresh.style.top = `${-60 + (pullDistance * 0.5)}px`;
+        } else if (pullDistance >= pullThreshold) {
+          pullToRefresh.classList.add('visible');
         }
-        hideSkeleton();
-        renderUsers();
-        showToast(true, "Yeniləndi.");
-      } catch (e) {
-        console.error(e);
-        hideSkeleton();
-        showToast(false, "Yenilənmə alınmadı.");
-      } finally {
-        isLoading = false;
       }
-    }
+    }, { passive: true });
 
-    /***********************
-     *  FORM HANDLING      *
-     ***********************/
-    async function sendToGoogleForm(payload) {
-      const fd = new FormData();
-      fd.append(ENTRY_FIRSTNAME, payload.firstName);
-      fd.append(ENTRY_LASTNAME,  payload.lastName);
-      fd.append(ENTRY_AGE,       payload.age);
-      fd.append(ENTRY_GENDER,    payload.gender);
-      fd.append(ENTRY_STATUS,    payload.status);
-      fd.append(ENTRY_INSTAGRAM, payload.instagram);
-
-      await fetch(FORM_ACTION_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: fd
-      });
-      return { ok: true };
-    }
-
-    async function handleRegister(e) {
-      e.preventDefault();
-
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName  = document.getElementById('lastName').value.trim();
-      const age       = document.getElementById('age').value;
-      const gender    = document.getElementById('gender').value;
-      const status    = document.querySelector('input[name="status"]:checked').value;
-      const instagram = document.getElementById('instagram').value.trim().replace("@","");
-
-      if (!firstName || !lastName || !age || !gender || !instagram) {
-        showToast(false, "Bütün xanaları doldurun.");
-        return;
+    document.addEventListener('touchend', () => {
+      if (pullToRefresh.classList.contains('visible')) {
+        refreshData();
+        setTimeout(() => {
+          pullToRefresh.classList.remove('visible');
+          pullToRefresh.style.top = '-60px';
+        }, 1000);
+      } else {
+        pullToRefresh.style.top = '-60px';
       }
-
-      const newUser = {
-        id: Date.now(),
-        firstName,
-        lastName,
-        age,
-        gender,
-        status,
-        instagram,
-        timestamp: Date.now()
-      };
-
-      // Yeni əlavə olunan istifadəçinin ID-sini saxla
-      lastAddedUserId = newUser.id;
-      
-      users.unshift(newUser);
-      saveUsers();
-      showToast(true, "Qeydiyyat tamamlandı.");
-      renderUsers();
-
-      try {
-        await sendToGoogleForm(newUser);
-        setTimeout(refreshData, 2000);
-      } catch (err) {
-        console.error(err);
-      }
-
-      form.reset();
-    }
-
-    /***********************
-     *  INITIALIZATION     *
-     ***********************/
-    document.addEventListener("DOMContentLoaded", async () => {
-      setFilterButtonUI("all");
-      
-      showSkeleton();
-      
-      try {
-        users = await fetchUsersFromAPI();
-        saveUsers();
-      } catch (e) {
-        console.error(e);
-        users = loadUsers();
-      } finally {
-        hideSkeleton();
-        renderUsers();
-      }
+      touchStartY = 0;
     });
 
-    // Keyboard support for modal
+    // Offline detection
+    function updateOnlineStatus() {
+      if (!navigator.onLine) {
+        offlineIndicator.classList.add('visible');
+      } else {
+        offlineIndicator.classList.remove('visible');
+      }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
+    // Image modal
+    function openModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", async () => {
+      setFilterButtonUI("all");
+      myUserId = getMyId();
+      
+      // İlk sinxronizasiya
+      showSkeleton();
+      await syncUsers();
+      hideSkeleton();
+      
+      // Hər 30 saniyədə bir avtomatik yenilə (bütün telefonlar sinxron qalsın)
+      setInterval(async () => {
+        if (document.visibilityState === 'visible') {
+          await syncUsers();
+        }
+      }, 30000);
+      
+      // Səhifə görünəndə də yenilə
+      document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible') {
+          await syncUsers();
+        }
+      });
+    });
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
 
-    
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.style.colorScheme = 'dark';
+    }
   </script>
 
 </body>
