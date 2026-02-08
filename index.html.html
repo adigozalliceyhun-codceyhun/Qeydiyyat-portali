@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_code = '''<!DOCTYPE html>
 <html lang="az">
 <head>
   <meta charset="UTF-8" />
@@ -8,462 +8,506 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root { color-scheme: dark; }
-    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
     
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0f172a;
-      color: #e2e8f0;
+      background: #0a0a0a !important;
+      color: #e5e7eb;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overscroll-behavior-y: contain;
+      margin: 0;
+      padding: 0;
     }
-
-    .bg-gradient-mobile {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-      background-color: #0f172a;
-      background-image:
-        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%),
-        radial-gradient(at 0% 100%, hsla(253,16%,7%,1) 0, transparent 50%),
-        radial-gradient(at 100% 100%, hsla(339,49%,30%,1) 0, transparent 50%);
-      background-attachment: fixed; background-size: cover;
-    }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .glass-input {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white; transition: all 0.3s ease; font-size: 16px;
-    }
-    .glass-input:focus {
-      border-color: #8b5cf6;
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-      outline: none;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes newUserSlide {
-      0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
-      60% { transform: translateY(5px) scale(1.02); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .user-card { animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; }
-    .new-user-card {
-      animation: newUserSlide 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      border: 2px solid #8b5cf6;
-      box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
-      z-index: 10;
-    }
-
-    .new-badge {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(135deg, #8b5cf6, #ec4899);
-      color: white; padding: 4px 12px; border-radius: 20px;
-      font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
-      z-index: 20; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-    }
-
-    .sync-indicator {
-      position: fixed; bottom: 80px; left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(139, 92, 246, 0.9); color: white;
-      padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;
-      z-index: 50; transition: transform 0.3s ease;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .sync-indicator.visible { transform: translateX(-50%) translateY(0); }
-    .sync-indicator.syncing::after {
-      content: ''; width: 12px; height: 12px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white; border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .offline-indicator {
-      position: fixed; top: 0; left: 0; right: 0;
-      background: #ef4444; color: white; text-align: center;
-      padding: 0.5rem; font-size: 0.875rem; z-index: 100;
-      transform: translateY(-100%); transition: transform 0.3s ease;
-    }
-    .offline-indicator.visible { transform: translateY(0); }
-
-    .image-modal {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px); z-index: 1000;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .image-modal.active { opacity: 1; pointer-events: all; }
-    .image-modal img { max-width: 90%; max-height: 80vh; border-radius: 1rem; transform: scale(0.9); transition: transform 0.3s ease; }
-    .image-modal.active img { transform: scale(1); }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px;
-      background: rgba(255, 255, 255, 0.1); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background 0.3s;
-    }
-    .modal-close:hover { background: rgba(255, 255, 255, 0.2); }
-
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
     @media (max-width: 640px) {
-      .glass-input { font-size: 16px !important; padding: 0.75rem 1rem; }
-      .user-card { margin-bottom: 1rem; }
-      .avatar-container { width: 80px !important; height: 80px !important; }
-    }
-
-    .instagram-link { position: relative; overflow: hidden; }
-    .instagram-link::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-    .instagram-link:hover::before { left: 100%; }
-
-    .avatar-container { position: relative; cursor: pointer; transition: transform 0.3s ease; width: 96px; height: 96px; }
-    .avatar-container:hover { transform: scale(1.05); }
-    .avatar-container::after {
-      content: '🔍'; position: absolute; bottom: 0; right: 0;
-      width: 24px; height: 24px; background: rgba(0,0,0,0.6);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 12px; opacity: 0; transition: opacity 0.3s;
-    }
-    .avatar-container:hover::after { opacity: 1; }
-
-    .empty-state-large {
-      min-height: 60vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center; padding: 2rem;
-    }
-    .empty-icon {
-      width: 120px; height: 120px;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .empty-icon svg { width: 60px; height: 60px; color: #8b5cf6; }
-
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    .live-indicator {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; color: #10b981; font-weight: 500;
-    }
-    .live-indicator::before {
-      content: ''; width: 6px; height: 6px; background: #10b981;
-      border-radius: 50%; animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-  </style>
-</head>
-<body class="antialiased min-h-screen">
-
-  <div class="bg-gradient-mobile"></div>
-  <div id="offlineIndicator" class="offline-indicator"><span>⚠️ İnternet bağlantısı yoxdur</span></div>
-  <div id="syncIndicator" class="sync-indicator"><span>Sinxronizasiya...</span></div>
-
-  <div id="imageModal" class="image-modal" onclick="closeModal()">
-    <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
-      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </div>
-    <img id="modalImage" src="" alt="Profile">
-  </div>
-
-  <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-14 sm:h-16">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center">
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-          </div>
-          <span class="font-bold text-lg sm:text-xl bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">SocialConnect</span>
-          <span class="live-indicator ml-2" id="liveIndicator" style="display:none;">LIVE</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="forceSync()" class="group flex items-center gap-1.5 px-3 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95">
-            <svg id="refreshIcon" class="w-4 h-4 text-purple-400 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <span class="text-xs font-medium">Yenilə</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12">
-      <div class="lg:col-span-5 flex flex-col justify-center space-y-4">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-          İcma ilə <br>
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">Əlaqə Qurun</span>
-        </h1>
-        <p class="text-base sm:text-lg text-gray-400">Yeni insanlarla tanış olun və şəbəkənizi genişləndirin.</p>
-        <div class="flex gap-6 pt-2">
-          <div>
-            <div class="text-2xl sm:text-3xl font-bold text-white" id="total-users-count">0</div>
-            <div class="text-xs text-gray-500 uppercase">İstifadəçi</div>
-          </div>
-          <div>
-            <div class="text-2xl sm:text-3xl font-bold text-white" id="online-count">0</div>
-            <div class="text-xs text-gray-500 uppercase">Bu gün</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="lg:col-span-7">
-        <div class="glass rounded-2xl p-5 sm:p-8 relative overflow-hidden">
-          <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-          
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4 flex items-center gap-2">
-            <span class="w-1 h-6 bg-purple-500 rounded-full"></span>
-            Qeydiyyat Formu
-          </h2>
-
-          <form id="registerForm" class="space-y-4" onsubmit="handleRegister(event)">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="text-xs font-medium text-gray-400 uppercase">Ad</label>
-                <input type="text" id="firstName" required class="w-full px-3 py-2.5 rounded-xl glass-input" placeholder="Adınız">
-              </div>
-              <div>
-                <label class="text-xs font-medium text-gray-400 uppercase">Soyad</label>
-                <input type="text" id="lastName" required class="w-full px-3 py-2.5 rounded-xl glass-input" placeholder="Soyadınız">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="text-xs font-medium text-gray-400 uppercase">Yaş</label>
-                <input type="number" id="age" min="10" max="100" required class="w-full px-3 py-2.5 rounded-xl glass-input" placeholder="25">
-              </div>
-              <div>
-                <label class="text-xs font-medium text-gray-400 uppercase">Cins</label>
-                <select id="gender" required class="w-full px-3 py-2.5 rounded-xl glass-input appearance-none">
-                  <option value="" disabled selected>Seçin</option>
-                  <option value="Kişi">Kişi</option>
-                  <option value="Qadın">Qadın</option>
-                  <option value="Digər">Digər</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="text-xs font-medium text-gray-400 uppercase">Ailə Vəziyyəti</label>
-              <div class="flex gap-3 mt-1">
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Subay" class="peer sr-only" checked>
-                  <div class="text-center py-2.5 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all text-sm">Subay</div>
-                </label>
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Evli" class="peer sr-only">
-                  <div class="text-center py-2.5 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all text-sm">Evli</div>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="text-xs font-medium text-gray-400 uppercase">Instagram</label>
-              <div class="relative">
-                <span class="absolute left-3 top-2.5 text-gray-500">@</span>
-                <input type="text" id="instagram" required class="w-full pl-7 pr-3 py-2.5 rounded-xl glass-input" placeholder="istifadeci_adi">
-              </div>
-            </div>
-
-            <button type="submit" id="submitBtn" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transform transition hover:-translate-y-0.5 active:scale-95 flex justify-center items-center gap-2">
-              <span>Qeydiyyatdan Keç</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div id="usersSection">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
-        <div>
-          <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
-          <p class="text-xs text-gray-500 mt-1" id="lastSyncTime">Son yeniləmə: İndi</p>
-        </div>
-        <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
-          <button onclick="filterUsers('all')" class="filter-btn px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap">Hamısı</button>
-          <button onclick="filterUsers('Kişi')" class="filter-btn px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 text-xs font-medium transition-colors whitespace-nowrap">Kişi</button>
-          <button onclick="filterUsers('Qadın')" class="filter-btn px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 text-xs font-medium transition-colors whitespace-nowrap">Qadın</button>
-          <button onclick="filterUsers('Subay')" class="filter-btn px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 text-xs font-medium transition-colors whitespace-nowrap">Subay</button>
-          <button onclick="filterUsers('Evli')" class="filter-btn px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 text-xs font-medium transition-colors whitespace-nowrap">Evli</button>
-        </div>
-      </div>
-
-      <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- Users will be rendered here -->
-      </div>
-
-      <div id="emptyState" class="empty-state-large hidden">
-        <div class="empty-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-          </svg>
-        </div>
-        <h3 class="text-2xl font-bold text-white mb-2">Hələ heç kim yoxdur</h3>
-        <p class="text-gray-400">İlk qeydiyyatdan keçən siz olun!</p>
-      </div>
-    </div>
-
-  </main>
-
-  <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
-    <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3">
-      <div class="bg-green-500/20 p-2 rounded-full">
-        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div>
-        <h4 class="font-bold text-sm" id="toastTitle">Uğurlu!</h4>
-        <p class="text-xs text-gray-300" id="toastMsg">Qeydiyyat tamamlandı.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ==========================================
-    // KONFIQURASIYA
-    // ==========================================
-    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
-    const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo";
-
-    const ENTRY_FIRSTNAME = "entry.1178680962";
-    const ENTRY_LASTNAME  = "entry.1475120277";
-    const ENTRY_INSTAGRAM = "entry.1110943076";
-    const ENTRY_AGE       = "entry.1294895519";
-    const ENTRY_GENDER    = "entry.1632031862";
-    const ENTRY_STATUS    = "entry.222463848";
-
-    // ==========================================
-    // STATE
-    // ==========================================
-    const LS_KEY = "sc_users_v2";
-    const LS_MY_ID = "sc_my_id";
-    const LS_PENDING = "sc_pending";
-    
-    let users = [];
-    let currentFilter = "all";
-    let isSyncing = false;
-    let lastAddedId = null;
-    let syncInterval = null;
-
-    // ==========================================
-    // UTILS
-    // ==========================================
-    function generateId() {
-      return 'u_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 5);
-    }
-
-    function getAvatar(firstName, lastName, gender) {
-      const name = `${firstName || ''} ${lastName || ''}`.trim();
-      const seed = encodeURIComponent(name || 'User');
-      let bg = gender === 'Kişi' ? '3b82f6,2563eb' : gender === 'Qadın' ? 'ec4899,db2777' : '8b5cf6,7c3aed';
-      return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=${bg}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
-    }
-
-    function timeAgo(ts) {
-      if (!ts) return "Naməlum";
-      const s = Math.floor((Date.now() - ts) / 1000);
-      if (s < 60) return "İndi";
-      const m = Math.floor(s / 60);
-      if (m < 60) return `${m} dəq əvvəl`;
-      const h = Math.floor(m / 60);
-      if (h < 24) return `${h} saat əvvəl`;
-      const d = Math.floor(h / 24);
-      return `${d} gün əvvəl`;
-    }
-
-    // ==========================================
-    // STORAGE
-    // ==========================================
-    function saveUsers() {
-      localStorage.setItem(LS_KEY, JSON.stringify(users));
-    }
-
-    function loadUsers() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch { return []; }
-    }
-
-    function savePending(user) {
-      const pending = JSON.parse(localStorage.getItem(LS_PENDING) || '[]');
-      pending.push({...user, pending: true, retryCount: 0});
-      localStorage.setItem(LS_PENDING, JSON.stringify(pending));
-    }
-
-    function getPending() {
-      try {
-        return JSON.parse(localStorage.getItem(LS_PENDING) || '[]');
-      } catch { return []; }
-    }
-
-    function removePending(id) {
-      const pending = getPending().filter(p => p.id !== id);
-      localStorage.setItem(LS_PENDING, JSON.stringify(pending));
-    }
-
-    // ==========================================
-    // API
-    // ==========================================
-    async function fetchAPI() {
-      if (!API_GET_URL.includes('http')) return [];
-      try {
-        const res = await fetch(API_GET_URL + '&t=' + Date.now());
-        const data = await res.json();
-        if (!data.ok || !Array.isArray(data.users)) return [];
-        
-        return data.users.map(u => ({
-          id: u.id || generateId(),
-          firstName: u.FirstName || u.firstName || "",
-          lastName: u.LastName || u.lastName || "",
-          age: u.Age || u.age || "",
-          gender: u.Gender || u.gender || "Digər",
-          status: u.Status || u.status || "Subay",
-          instagram: u.Instagram || u.instagram || "",
-          timestamp: new Date(u.Timestamp || u.timestamp || Date.now()).getTime(),
-          source: 'api'
-        }));
-      } catch (e) {
-        console.error('API xətası:', e);
-        return [];
+      body {
+        font-size: 14px;
       }
     }
 
-    async function sendToForms(user) {
+    .glass {
+      background: #1a1a1a;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #333;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #1a1a1a;
+      color: #e5e7eb;
+      transition: all 0.2s;
+      margin-top: 6px;
+    }
+
+    .input-field:focus {
+      border-color: #8b5cf6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .input-field::placeholder {
+      color: #6b7280;
+    }
+
+    .gradient-header {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .tab {
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #9ca3af;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+    }
+
+    .user-card {
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      text-align: center;
+      position: relative;
+      animation: slideUp 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .new-badge {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #9333ea, #db2777);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .instagram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(219, 39, 119, 0.2) 100%);
+      color: #c084fc;
+      padding: 10px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      margin-top: 12px;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      transition: all 0.2s;
+    }
+
+    .instagram-btn:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(219, 39, 119, 0.3) 100%);
+    }
+
+    .time-ago {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .register-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+
+    .register-btn:hover {
+      opacity: 0.9;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .radio-label {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border: 2px solid #333;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #9ca3af;
+      background: #1a1a1a;
+    }
+
+    .radio-label.active {
+      border-color: #9333ea;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c084fc;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: #1a1a1a;
+      padding: 32px 24px;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    label {
+      color: #9ca3af;
+    }
+
+    h2, h3 {
+      color: #f3f4f6 !important;
+    }
+
+    p {
+      color: #9ca3af;
+    }
+
+    .stats-number {
+      color: #f3f4f6 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Giriş/Qeydiyyat Ekranı -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #9333ea, #db2777); border-radius: 20px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+          <svg width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <h2 style="margin: 0; font-size: 24px;">Xoş Gəlmisiniz</h2>
+        <p style="margin-top: 8px; font-size: 14px;">Davam etmək üçün qeydiyyatdan keçin</p>
+      </div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Ad</label>
+          <input type="text" id="firstName" required class="input-field" placeholder="Adınızı daxil edin">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Soyad</label>
+          <input type="text" id="lastName" required class="input-field" placeholder="Soyadınızı daxil edin">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 500;">Yaş</label>
+            <input type="number" id="age" min="10" max="100" required class="input-field" placeholder="25">
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 500;">Cins</label>
+            <select id="gender" required class="input-field" style="appearance: none; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%226b7280%22 viewBox=%220 0 16 16%22><path d=%22M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;">
+              <option value="" disabled selected>Seçin</option>
+              <option value="Kişi">Kişi</option>
+              <option value="Qadın">Qadın</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Ailə Vəziyyəti</label>
+          <div class="radio-group">
+            <label class="radio-label active" onclick="selectStatus(this, 'Subay')">
+              <input type="radio" name="status" value="Subay" checked>
+              Subay
+            </label>
+            <label class="radio-label" onclick="selectStatus(this, 'Evli')">
+              <input type="radio" name="status" value="Evli">
+              Evli
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Instagram</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 16px;">@</span>
+            <input type="text" id="instagram" required class="input-field" style="padding-left: 36px;" placeholder="istifadeci_adi">
+          </div>
+        </div>
+
+        <button type="submit" class="register-btn">
+          <span>Qeydiyyatdan Keç</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ana Ekran -->
+  <div id="mainScreen" class="hidden">
+    <div class="container">
+      <!-- Başlıq -->
+      <div class="gradient-header">
+        <h1 style="margin: 0 0 8px 0; font-size: 20px;">İcma ilə Əlaqə Qurun</h1>
+        <p style="margin: 0; opacity: 0.9; font-size: 13px;">Yeni insanlarla tanış olun</p>
+      </div>
+
+      <!-- Statistika -->
+      <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+        <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="totalCount">0</div>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">İstifadəçi</div>
+        </div>
+        <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="todayCount">0</div>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Bu gün</div>
+        </div>
+      </div>
+
+      <!-- Tablar -->
+      <div class="tabs">
+        <button class="tab active" onclick="filterUsers('all', this)">Hamısı</button>
+        <button class="tab" onclick="filterUsers('Kişi', this)">Kişi</button>
+        <button class="tab" onclick="filterUsers('Qadın', this)">Qadın</button>
+        <button class="tab" onclick="filterUsers('Subay', this)">Subay</button>
+        <button class="tab" onclick="filterUsers('Evli', this)">Evli</button>
+      </div>
+
+      <!-- İstifadəçi Grid -->
+      <div id="usersList"></div>
+
+      <!-- Boş state -->
+      <div id="emptyState" style="text-align: center; padding: 40px; color: #6b7280; display: none;">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <p>Hələ heç kim qeydiyyatdan keçməyib</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">Qeydiyyat tamamlandı!</div>
+
+  <script>
+    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
+    const ENTRY_FIRSTNAME = "entry.1178680962";
+    const ENTRY_LASTNAME = "entry.1475120277";
+    const ENTRY_INSTAGRAM = "entry.1110943076";
+    const ENTRY_AGE = "entry.1294895519";
+    const ENTRY_GENDER = "entry.1632031862";
+    const ENTRY_STATUS = "entry.222463848";
+
+    const LS_KEY = "socialconnect_user_v1";
+    const LS_USERS = "socialconnect_users_v1";
+    const LS_REGISTERED = "socialconnect_registered_v1";
+
+    let currentUser = null;
+    let users = [];
+    let currentFilter = 'all';
+
+    function init() {
+      const isRegistered = localStorage.getItem(LS_REGISTERED);
+      const savedUser = localStorage.getItem(LS_KEY);
+      
+      if (isRegistered && savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showMainScreen();
+      }
+    }
+
+    function selectStatus(el, value) {
+      document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('active'));
+      el.classList.add('active');
+      el.querySelector('input').checked = true;
+    }
+
+    function showMainScreen() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainScreen').classList.remove('hidden');
+      loadUsers();
+    }
+
+    function getInitials(firstName, lastName) {
+      const f = firstName ? firstName.charAt(0).toUpperCase() : '';
+      const l = lastName ? lastName.charAt(0).toUpperCase() : '';
+      return f + l;
+    }
+
+    function timeAgo(timestamp) {
+      if (!timestamp) return "İndi";
+      const seconds = Math.floor((Date.now() - timestamp) / 1000);
+      if (seconds < 60) return "İndi";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} dəq əvvəl`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} saat əvvəl`;
+      return `${Math.floor(hours / 24)} gün əvvəl`;
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const age = document.getElementById('age').value;
+      const gender = document.getElementById('gender').value;
+      const status = document.querySelector('input[name="status"]:checked').value;
+      const instagram = document.getElementById('instagram').value.trim().replace("@", "");
+
+      currentUser = {
+        id: Date.now(),
+        firstName,
+        lastName,
+        age,
+        gender,
+        status,
+        instagram,
+        timestamp: Date.now(),
+        isNew: true
+      };
+
+      localStorage.setItem(LS_KEY, JSON.stringify(currentUser));
+      localStorage.setItem(LS_REGISTERED, "true");
+
+      sendToGoogleForm(currentUser);
+
+      showMainScreen();
+      showToast("Qeydiyyat tamamlandı!");
+      
+      addUser(currentUser);
+    }
+
+    async function sendToGoogleForm(user) {
       const fd = new FormData();
       fd.append(ENTRY_FIRSTNAME, user.firstName);
       fd.append(ENTRY_LASTNAME, user.lastName);
@@ -471,325 +515,134 @@
       fd.append(ENTRY_GENDER, user.gender);
       fd.append(ENTRY_STATUS, user.status);
       fd.append(ENTRY_INSTAGRAM, user.instagram);
-      fd.append('userId', user.id);
 
-      await fetch(FORM_ACTION_URL, { method: "POST", mode: "no-cors", body: fd });
-    }
-
-    // ==========================================
-    // SINXRONIZASIYA (ƏSAS)
-    // ==========================================
-    async function sync(showLoading = false) {
-      if (isSyncing) return;
-      isSyncing = true;
-      
-      if (showLoading) showSync(true);
-      
       try {
-        // 1. API-dən çək
-        const apiUsers = await fetchAPI();
-        
-        // 2. Local-ı al
-        let localUsers = loadUsers();
-        
-        // 3. Pending-ləri əlavə et (göndərilməmişlər)
-        const pending = getPending();
-        
-        // 4. Birləşdir (Map ilə duplicate olmadan)
-        const merged = new Map();
-        
-        // Əvvəlcə API-dən gələnlər
-        apiUsers.forEach(u => merged.set(u.id, u));
-        
-        // Sonra local (əgər API-də yoxdursa və ya daha yenidirsə)
-        localUsers.forEach(u => {
-          const existing = merged.get(u.id);
-          if (!existing || u.timestamp > existing.timestamp) {
-            merged.set(u.id, u);
-          }
+        await fetch(FORM_ACTION_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: fd
         });
-        
-        // Pending-ləri də əlavə et (ən prioritetli)
-        pending.forEach(u => {
-          merged.set(u.id, {...u, pending: true});
-        });
-        
-        // 5. Array-ə çevir və sort et
-        users = Array.from(merged.values()).sort((a, b) => b.timestamp - a.timestamp);
-        
-        // 6. Yadda saxla
-        saveUsers();
-        
-        // 7. Göstər
-        render();
-        updateStats();
-        
-        // 8. Pending-ləri göndərməyə çalış (retry)
-        await retryPending();
-        
-        updateLastSyncTime();
-        
       } catch (e) {
-        console.error('Sync xətası:', e);
-      } finally {
-        isSyncing = false;
-        showSync(false);
+        console.error("Form göndərmə xətası:", e);
       }
     }
 
-    async function retryPending() {
-      const pending = getPending();
-      for (const user of pending) {
-        try {
-          await sendToForms(user);
-          removePending(user.id);
-          // İstifadəçini pending-dən çıxart
-          const idx = users.findIndex(u => u.id === user.id);
-          if (idx !== -1) {
-            users[idx].pending = false;
-          }
-        } catch (e) {
-          console.log('Retry failed:', user.id);
-        }
-      }
-      saveUsers();
+    function addUser(user) {
+      let existing = JSON.parse(localStorage.getItem(LS_USERS) || "[]");
+      existing.unshift(user);
+      localStorage.setItem(LS_USERS, JSON.stringify(existing));
+      users = existing;
+      renderUsers();
     }
 
-    // ==========================================
-    // UI
-    // ==========================================
-    function render() {
-      const grid = document.getElementById('usersGrid');
-      const empty = document.getElementById('emptyState');
+    function loadUsers() {
+      const saved = localStorage.getItem(LS_USERS);
+      if (saved) {
+        users = JSON.parse(saved);
+      }
       
-      grid.innerHTML = '';
+      if (currentUser && !users.find(u => u.id === currentUser.id)) {
+        users.unshift(currentUser);
+      }
       
-      const filtered = users.filter(u => {
+      renderUsers();
+      
+      if (navigator.onLine) {
+        fetchUsersFromAPI();
+      }
+    }
+
+    async function fetchUsersFromAPI() {
+      try {
+        // API çağırışı buraya
+      } catch (e) {
+        console.log("API əlçatan deyil");
+      }
+    }
+
+    function renderUsers() {
+      const container = document.getElementById('usersList');
+      const emptyState = document.getElementById('emptyState');
+      const totalCount = document.getElementById('totalCount');
+      const todayCount = document.getElementById('todayCount');
+
+      let filtered = users.filter(u => {
         if (currentFilter === 'all') return true;
         return u.gender === currentFilter || u.status === currentFilter;
       });
 
+      totalCount.textContent = users.length;
+      const today = users.filter(u => {
+        const ts = u.timestamp || 0;
+        return (Date.now() - ts) < 86400000;
+      }).length;
+      todayCount.textContent = today;
+
       if (filtered.length === 0) {
-        empty.classList.remove('hidden');
+        container.innerHTML = '';
+        emptyState.style.display = 'block';
         return;
-      } else {
-        empty.classList.add('hidden');
       }
 
-      filtered.forEach((user, idx) => {
-        const isNew = user.id === lastAddedId;
-        const isPending = user.pending;
-        const delay = isNew ? 0 : idx * 50;
+      emptyState.style.display = 'none';
+      
+      container.innerHTML = filtered.map((user, index) => {
+        const isNew = user.isNew || (Date.now() - (user.timestamp || 0) < 60000);
+        const initials = getInitials(user.firstName, user.lastName);
+        const fullName = `${user.firstName} ${user.lastName}`;
+        const ageText = user.age ? `${user.age} yaş` : '';
+        const genderText = user.gender || '';
+        const infoText = [ageText, genderText].filter(Boolean).join(' • ');
         
-        const card = document.createElement('div');
-        card.className = `user-card glass rounded-2xl p-4 sm:p-6 relative ${isNew ? 'new-user-card' : ''}`;
-        card.style.animationDelay = `${delay}ms`;
-        
-        const name = `${user.firstName} ${user.lastName}`.trim();
-        const ig = user.instagram.replace('@', '');
-        const igLink = `https://instagram.com/${ig}`;
-        
-        card.innerHTML = `
-          ${isNew ? '<div class="new-badge">Yeni</div>' : ''}
-          ${isPending ? '<div class="absolute top-2 right-2 w-2 h-2 bg-yellow-500 rounded-full animate-pulse" title="Göndərilir..."></div>' : ''}
-          
-          <div class="absolute top-3 right-3">
-            <span class="px-2 py-0.5 text-xs rounded-md ${user.status === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300'} border border-white/5">
-              ${user.status}
-            </span>
-          </div>
-
-          <div class="flex flex-col items-center text-center">
-            <div class="avatar-container relative mb-3" onclick="openModal('${getAvatar(user.firstName, user.lastName, user.gender)}')">
-              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-purple-500 to-pink-500">
-                <img src="${getAvatar(user.firstName, user.lastName, user.gender)}" class="w-full h-full rounded-full object-cover border-2 border-[#0f172a]" loading="lazy">
-              </div>
+        return `
+          <div class="user-card" style="animation-delay: ${index * 0.1}s">
+            ${isNew ? '<div class="new-badge">Yeni</div>' : ''}
+            <span class="status-badge">${user.status}</span>
+            
+            <div class="avatar-circle">
+              ${initials}
             </div>
-
-            <h3 class="text-lg font-bold text-white mb-0.5 truncate w-full">${name}</h3>
-            <p class="text-xs text-gray-400 mb-3">${user.age ? user.age + ' yaş' : ''} ${user.age && user.gender ? '•' : ''} ${user.gender}</p>
-
-            <a href="${igLink}" target="_blank" class="instagram-link w-full py-2 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 text-purple-300 hover:text-white hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-1 text-sm">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-              <span class="font-medium truncate">@${ig}</span>
+            
+            <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600;">${fullName}</h3>
+            <p style="margin: 0 0 12px 0; color: #6b7280; font-size: 13px;">${infoText}</p>
+            
+            <a href="https://instagram.com/${user.instagram}" target="_blank" class="instagram-btn">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @${user.instagram}
             </a>
-
-            <div class="mt-3 text-xs text-gray-500 flex items-center gap-1">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <span>${timeAgo(user.timestamp)}</span>
-              ${isPending ? '<span class="text-yellow-500">• Göndərilir</span>' : ''}
+            
+            <div class="time-ago">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              ${timeAgo(user.timestamp)}
             </div>
           </div>
         `;
-        grid.appendChild(card);
-      });
+      }).join('');
 
-      // Scroll to new
-      if (lastAddedId) {
-        setTimeout(() => {
-          const newCard = document.querySelector('.new-user-card');
-          if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => { lastAddedId = null; }, 5000);
-        }, 100);
-      }
+      setTimeout(() => {
+        users.forEach(u => u.isNew = false);
+        localStorage.setItem(LS_USERS, JSON.stringify(users));
+      }, 5000);
     }
 
-    function updateStats() {
-      document.getElementById('total-users-count').textContent = users.length;
-      const today = users.filter(u => Date.now() - u.timestamp < 86400000).length;
-      document.getElementById('online-count').textContent = today;
-    }
-
-    function updateLastSyncTime() {
-      const el = document.getElementById('lastSyncTime');
-      const now = new Date();
-      el.textContent = `Son yeniləmə: ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
-    }
-
-    function showSync(show) {
-      const el = document.getElementById('syncIndicator');
-      if (show) el.classList.add('visible', 'syncing');
-      else el.classList.remove('visible', 'syncing');
-    }
-
-    function showToast(ok, msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastTitle').textContent = ok ? 'Uğurlu!' : 'Xəta!';
-      document.getElementById('toastMsg').textContent = msg;
-      toast.classList.remove('translate-y-24', 'opacity-0');
-      setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 3000);
-    }
-
-    // ==========================================
-    // EVENTS
-    // ==========================================
-    async function handleRegister(e) {
-      e.preventDefault();
-      
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="animate-spin">↻</span> Göndərilir...';
-
-      const user = {
-        id: generateId(),
-        firstName: document.getElementById('firstName').value.trim(),
-        lastName: document.getElementById('lastName').value.trim(),
-        age: document.getElementById('age').value,
-        gender: document.getElementById('gender').value,
-        status: document.querySelector('input[name="status"]:checked').value,
-        instagram: document.getElementById('instagram').value.trim().replace('@',''),
-        timestamp: Date.now(),
-        pending: true
-      };
-
-      // 1. Dərhal local-a əlavə et və göstər
-      lastAddedId = user.id;
-      users.unshift(user);
-      saveUsers();
-      render();
-      updateStats();
-      showToast(true, "Qeydiyyatınız qəbul edildi!");
-      
-      // 2. Formu təmizlə və reset
-      form.reset();
-      btn.disabled = false;
-      btn.innerHTML = '<span>Qeydiyyatdan Keç</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>';
-
-      // 3. Pending-ə əlavə et
-      savePending(user);
-
-      // 4. Arxa planda göndər (await etmə!)
-      sendToForms(user).then(() => {
-        // Uğurlu olduqda pending-dən çıxart
-        removePending(user.id);
-        const idx = users.findIndex(u => u.id === user.id);
-        if (idx !== -1) {
-          users[idx].pending = false;
-          saveUsers();
-          render();
-        }
-      }).catch(err => {
-        console.error('Forms göndərmə xətası:', err);
-      });
-
-      // 5. 3 saniyə sonra sync et (yeni data API-də ola bilər)
-      setTimeout(() => sync(false), 3000);
-    }
-
-    function filterUsers(type) {
+    function filterUsers(type, btn) {
       currentFilter = type;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        const isActive = btn.getAttribute('onclick').includes(`'${type}'`);
-        btn.classList.toggle('ring-2', isActive);
-        btn.classList.toggle('ring-purple-500', isActive);
-        btn.classList.toggle('bg-white/20', isActive);
-        btn.classList.toggle('bg-white/5', !isActive);
-      });
-      render();
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderUsers();
     }
 
-    async function forceSync() {
-      const icon = document.getElementById('refreshIcon');
-      icon.classList.add('animate-spin');
-      await sync(true);
-      icon.classList.remove('animate-spin');
-      showToast(true, "Siyahı yeniləndi");
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    function openModal(src) {
-      document.getElementById('modalImage').src = src;
-      document.getElementById('imageModal').classList.add('active');
-    }
-    function closeModal() {
-      document.getElementById('imageModal').classList.remove('active');
-    }
-
-    // ==========================================
-    // INIT
-    // ==========================================
-    document.addEventListener('DOMContentLoaded', async () => {
-      // İlk yükləmə
-      users = loadUsers();
-      render();
-      updateStats();
-      
-      // Filter UI
-      filterUsers('all');
-      
-      // İlk sync
-      await sync(true);
-      
-      // Avtomatik sync (hər 10 saniyədə bir)
-      syncInterval = setInterval(() => {
-        if (document.visibilityState === 'visible') {
-          sync(false);
-        }
-      }, 10000);
-      
-      // Səhifə görünəndə dərhal sync
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          sync(false);
-          document.getElementById('liveIndicator').style.display = 'inline-flex';
-          setTimeout(() => {
-            document.getElementById('liveIndicator').style.display = 'none';
-          }, 3000);
-        }
-      });
-      
-      // Online/Offline
-      window.addEventListener('online', () => {
-        document.getElementById('offlineIndicator').classList.remove('visible');
-        sync(false);
-      });
-      window.addEventListener('offline', () => {
-        document.getElementById('offlineIndicator').classList.add('visible');
-      });
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
+    init();
   </script>
+
 </body>
-</html>
+</html>'''
+
+print(html_code)
