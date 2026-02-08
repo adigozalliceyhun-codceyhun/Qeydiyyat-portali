@@ -1,599 +1,645 @@
-<!DOCTYPE html>
+html_code = '''<!DOCTYPE html>
 <html lang="az">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Qeydiyyat Portalı</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0f172a;
-      background-image:
-        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-      min-height: 100vh;
-      color: #e2e8f0;
+      background: #0a0a0a !important;
+      color: #e5e7eb;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
     }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 14px;
+      }
+    }
+
     .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      background: #1a1a1a;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
     }
-    .glass-input {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
-      transition: all 0.3s ease;
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #333;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #1a1a1a;
+      color: #e5e7eb;
+      transition: all 0.2s;
+      margin-top: 6px;
     }
-    .glass-input:focus {
+
+    .input-field:focus {
       border-color: #8b5cf6;
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
       outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(16px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    .input-field::placeholder {
+      color: #6b7280;
     }
+
+    .gradient-header {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .tab {
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #9ca3af;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+    }
+
     .user-card {
-      animation: slideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      text-align: center;
+      position: relative;
+      animation: slideUp 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .new-badge {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #9333ea, #db2777);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .instagram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(219, 39, 119, 0.2) 100%);
+      color: #c084fc;
+      padding: 10px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      margin-top: 12px;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      transition: all 0.2s;
+    }
+
+    .instagram-btn:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(219, 39, 119, 0.3) 100%);
+    }
+
+    .time-ago {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .register-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+
+    .register-btn:hover {
+      opacity: 0.9;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .radio-label {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border: 2px solid #333;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #9ca3af;
+      background: #1a1a1a;
+    }
+
+    .radio-label.active {
+      border-color: #9333ea;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c084fc;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: #1a1a1a;
+      padding: 32px 24px;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 500;
       opacity: 0;
-      will-change: transform, opacity;
+      transition: all 0.3s;
+      z-index: 1001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    @keyframes pulse-glow {
-      0%   { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.65); }
-      70%  { box-shadow: 0 0 0 14px rgba(139, 92, 246, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
-    .new-user-highlight { border: 2px solid #8b5cf6; animation: pulse-glow 2s infinite; }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    label {
+      color: #9ca3af;
+    }
 
-    /* sadə util */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    h2, h3 {
+      color: #f3f4f6 !important;
+    }
+
+    p {
+      color: #9ca3af;
+    }
+
+    .stats-number {
+      color: #f3f4f6 !important;
+    }
   </style>
 </head>
+<body>
 
-<body class="antialiased">
-
-  <!-- Header -->
-  <nav class="fixed top-0 w-full z-50 glass border-b-0 border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-          </div>
-          <span class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">SocialConnect</span>
+  <!-- Giriş/Qeydiyyat Ekranı -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #9333ea, #db2777); border-radius: 20px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+          <svg width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         </div>
-        <div class="flex items-center gap-4">
-          <button onclick="refreshData()" class="group flex items-center gap-2 px-4 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95">
-            <svg class="w-4 h-4 text-purple-400 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <span class="text-sm font-medium">Yenilə</span>
-          </button>
-        </div>
+        <h2 style="margin: 0; font-size: 24px;">Xoş Gəlmisiniz</h2>
+        <p style="margin-top: 8px; font-size: 14px;">Davam etmək üçün qeydiyyatdan keçin</p>
       </div>
-    </div>
-  </nav>
 
-  <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Ad</label>
+          <input type="text" id="firstName" required class="input-field" placeholder="Adınızı daxil edin">
+        </div>
 
-    <!-- Hero + Form -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Soyad</label>
+          <input type="text" id="lastName" required class="input-field" placeholder="Soyadınızı daxil edin">
+        </div>
 
-      <div class="lg:col-span-5 flex flex-col justify-center space-y-6">
-        <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-          İcma ilə <br>
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">Əlaqə Qurun</span>
-        </h1>
-        <p class="text-lg text-gray-400">
-          Yeni insanlarla tanış olun, profilləri kəşf edin və şəbəkənizi genişləndirin. Aşağıdakı formu dolduraraq qeydiyyatdan keçin.
-        </p>
-
-        <div class="flex gap-8 pt-4">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
           <div>
-            <div class="text-3xl font-bold text-white" id="total-users-count">0</div>
-            <div class="text-sm text-gray-500 uppercase tracking-wider">İstifadəçi</div>
+            <label style="font-size: 13px; font-weight: 500;">Yaş</label>
+            <input type="number" id="age" min="10" max="100" required class="input-field" placeholder="25">
           </div>
           <div>
-            <div class="text-3xl font-bold text-white" id="online-count">0</div>
-            <div class="text-sm text-gray-500 uppercase tracking-wider">Bu gün</div>
+            <label style="font-size: 13px; font-weight: 500;">Cins</label>
+            <select id="gender" required class="input-field" style="appearance: none; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 fill=%226b7280%22 viewBox=%220 0 16 16%22><path d=%22M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;">
+              <option value="" disabled selected>Seçin</option>
+              <option value="Kişi">Kişi</option>
+              <option value="Qadın">Qadın</option>
+            </select>
           </div>
         </div>
-      </div>
 
-      <div class="lg:col-span-7">
-        <div class="glass rounded-2xl p-8 relative overflow-hidden">
-          <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-          <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
-
-          <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <span class="w-1 h-8 bg-purple-500 rounded-full"></span>
-            Qeydiyyat Formu
-          </h2>
-
-          <form id="registerForm" class="space-y-5" onsubmit="handleRegister(event)">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Ad</label>
-                <input type="text" id="firstName" required class="w-full px-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Adınızı daxil edin">
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Soyad</label>
-                <input type="text" id="lastName" required class="w-full px-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Soyadınızı daxil edin">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Yaş</label>
-                <input type="number" id="age" min="10" max="100" required class="w-full px-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Məs: 25">
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Cins</label>
-                <select id="gender" required class="w-full px-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500 appearance-none">
-                  <option value="" disabled selected>Seçin</option>
-                  <option value="Kişi">Kişi</option>
-                  <option value="Qadın">Qadın</option>
-                  <option value="Digər">Digər</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="space-y-2 pt-2">
-              <label class="text-xs font-medium text-gray-400 uppercase">Ailə Vəziyyəti</label>
-              <div class="flex gap-4">
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Subay" class="peer sr-only" checked>
-                  <div class="text-center py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all hover:bg-white/10">
-                    Subay
-                  </div>
-                </label>
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Evli" class="peer sr-only">
-                  <div class="text-center py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all hover:bg-white/10">
-                    Evli
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-xs font-medium text-gray-400 uppercase">Instagram İstifadəçi Adı</label>
-              <div class="relative">
-                <span class="absolute left-4 top-3.5 text-gray-500">@</span>
-                <input type="text" id="instagram" class="w-full pl-8 pr-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="istifadeci_adi (istəyə bağlı)">
-              </div>
-              <p class="text-xs text-gray-500">İstəyə bağlıdır. Yazmasanız avatar ad/soyad baş hərfləri ilə çıxacaq.</p>
-            </div>
-
-            <button type="submit" class="w-full py-4 mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transform transition hover:-translate-y-1 active:scale-95 flex justify-center items-center gap-2">
-              <span>Qeydiyyatdan Keç</span>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </button>
-
-            <p id="sendHint" class="text-xs text-gray-500 pt-2">
-              Qeydiyyat zamanı məlumatlar həm ekrana düşəcək, həm də Google Sheet-ə göndəriləcək.
-            </p>
-          </form>
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Ailə Vəziyyəti</label>
+          <div class="radio-group">
+            <label class="radio-label active" onclick="selectStatus(this, 'Subay')">
+              <input type="radio" name="status" value="Subay" checked>
+              Subay
+            </label>
+            <label class="radio-label" onclick="selectStatus(this, 'Evli')">
+              <input type="radio" name="status" value="Evli">
+              Evli
+            </label>
+          </div>
         </div>
-      </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 500;">Instagram</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 16px;">@</span>
+            <input type="text" id="instagram" required class="input-field" style="padding-left: 36px;" placeholder="istifadeci_adi">
+          </div>
+        </div>
+
+        <button type="submit" class="register-btn">
+          <span>Qeydiyyatdan Keç</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </button>
+      </form>
     </div>
+  </div>
 
-    <!-- LIST SECTION (qeydiyyatdan sonra açılsın) -->
-    <section id="listSection" class="hidden">
-      <!-- Filters -->
-      <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <h3 class="text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
-        <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
-          <button onclick="filterUsers('all')" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-medium transition-colors ring-2 ring-purple-500">Hamısı</button>
-          <button onclick="filterUsers('Kişi')" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/20 text-sm font-medium transition-colors">Kişi</button>
-          <button onclick="filterUsers('Qadın')" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/20 text-sm font-medium transition-colors">Qadın</button>
-          <button onclick="filterUsers('Subay')" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/20 text-sm font-medium transition-colors">Subay</button>
-          <button onclick="filterUsers('Evli')" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/20 text-sm font-medium transition-colors">Evli</button>
+  <!-- Ana Ekran -->
+  <div id="mainScreen" class="hidden">
+    <div class="container">
+      <!-- Başlıq -->
+      <div class="gradient-header">
+        <h1 style="margin: 0 0 8px 0; font-size: 20px;">İcma ilə Əlaqə Qurun</h1>
+        <p style="margin: 0; opacity: 0.9; font-size: 13px;">Yeni insanlarla tanış olun</p>
+      </div>
+
+      <!-- Statistika -->
+      <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+        <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="totalCount">0</div>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">İstifadəçi</div>
+        </div>
+        <div class="glass" style="flex: 1; padding: 16px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold;" class="stats-number" id="todayCount">0</div>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Bu gün</div>
         </div>
       </div>
 
-      <!-- Grid -->
-      <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-
-      <div id="emptyState" class="hidden text-center py-20">
-        <div class="inline-block p-4 rounded-full bg-white/5 mb-4">
-          <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-          </svg>
-        </div>
-        <p class="text-gray-400">Hələ heç kim qeydiyyatdan keçməyib.</p>
+      <!-- Tablar -->
+      <div class="tabs">
+        <button class="tab active" onclick="filterUsers('all', this)">Hamısı</button>
+        <button class="tab" onclick="filterUsers('Kişi', this)">Kişi</button>
+        <button class="tab" onclick="filterUsers('Qadın', this)">Qadın</button>
+        <button class="tab" onclick="filterUsers('Subay', this)">Subay</button>
+        <button class="tab" onclick="filterUsers('Evli', this)">Evli</button>
       </div>
-    </section>
 
-  </main>
+      <!-- İstifadəçi Grid -->
+      <div id="usersList"></div>
 
-  <!-- Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-    <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3">
-      <div class="bg-green-500/20 p-2 rounded-full">
-        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div>
-        <h4 class="font-bold text-sm">Uğurlu!</h4>
-        <p class="text-xs text-gray-300">Qeydiyyat tamamlandı.</p>
+      <!-- Boş state -->
+      <div id="emptyState" style="text-align: center; padding: 40px; color: #6b7280; display: none;">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <p>Hələ heç kim qeydiyyatdan keçməyib</p>
       </div>
     </div>
   </div>
 
+  <!-- Toast -->
+  <div id="toast" class="toast">Qeydiyyat tamamlandı!</div>
+
   <script>
-    /***********************
-     *  1) BURANI DOLDUR! *
-     ***********************/
-    // 1) Google Form formResponse linki
     const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScHbTc16Jsmv5cdnUkxCAH5FxlOi9FiqG0aURzZQqhG4mgI9Q/formResponse";
-
-    // 2) Apps Script Web App URL
-    window.API_URL = "https://script.google.com/macros/s/AKfycbw317fB5EGKQqPxuk3A4cIGqs3yttMfI8VCPinR8bn1oUYDqR56B8VylkSEDeYzqnj7/exec";
-
-    // 3) Google Form entry id-lər
     const ENTRY_FIRSTNAME = "entry.1178680962";
-    const ENTRY_LASTNAME  = "entry.1475120277";
+    const ENTRY_LASTNAME = "entry.1475120277";
     const ENTRY_INSTAGRAM = "entry.1110943076";
-    const ENTRY_AGE       = "entry.1294895519";
-    const ENTRY_GENDER    = "entry.1632031862";
-    const ENTRY_STATUS    = "entry.222463848";
+    const ENTRY_AGE = "entry.1294895519";
+    const ENTRY_GENDER = "entry.1632031862";
+    const ENTRY_STATUS = "entry.222463848";
 
-    /***********************
-     * 2) LOCAL UI STATE   *
-     ***********************/
-    const LS_KEY = "socialconnect_users_v1";
-    const LS_REGISTERED_KEY = "socialconnect_registered_v1"; // 2) qeydiyyatdan sonra siyahı görünsün
+    const LS_KEY = "socialconnect_user_v1";
+    const LS_USERS = "socialconnect_users_v1";
+    const LS_REGISTERED = "socialconnect_registered_v1";
 
+    let currentUser = null;
     let users = [];
-    let currentFilter = "all";
+    let currentFilter = 'all';
 
-    const grid = document.getElementById('usersGrid');
-    const form = document.getElementById('registerForm');
-    const totalCountEl = document.getElementById('total-users-count');
-    const onlineCountEl = document.getElementById('online-count');
-    const emptyState = document.getElementById('emptyState');
-    const listSection = document.getElementById('listSection');
-
-    function setRegistered() {
-      localStorage.setItem(LS_REGISTERED_KEY, "1");
-    }
-    function isRegistered() {
-      return localStorage.getItem(LS_REGISTERED_KEY) === "1";
-    }
-    function toggleListVisibility(forceShow = null) {
-      const shouldShow = forceShow !== null ? forceShow : isRegistered();
-      if (shouldShow) listSection.classList.remove("hidden");
-      else listSection.classList.add("hidden");
-    }
-
-    function safeText(s) {
-      return String(s ?? "").trim();
-    }
-
-    function initials(firstName, lastName) {
-      const f = safeText(firstName);
-      const l = safeText(lastName);
-      const a = (f[0] || "").toUpperCase();
-      const b = (l[0] || "").toUpperCase();
-      return (a + b) || "SC";
-    }
-
-    // 1) instagram profil şəkli: unavatar ilə (username-only)
-    function getInstagramAvatarUrl(username) {
-      const u = safeText(username).replace("@", "").replace(/\s+/g, "");
-      if (!u) return "";
-      // cache-bust: yeni qeydiyyatda dərhal görünsün
-      return `https://unavatar.io/instagram/${encodeURIComponent(u)}?t=${Date.now()}`;
-    }
-
-    // 6) instagram yoxdursa: baş hərflər
-    function getInitialsAvatarUrl(firstName, lastName, gender) {
-      const name = encodeURIComponent(`${safeText(firstName)} ${safeText(lastName)}`.trim() || initials(firstName,lastName));
-      const bg = gender === 'Kişi' ? '3b82f6' : (gender === 'Qadın' ? 'ec4899' : '8b5cf6');
-      return `https://ui-avatars.com/api/?name=${name}&background=${bg}&color=fff&size=128&bold=true`;
-    }
-
-    function timeAgo(ts) {
-      const seconds = Math.floor((Date.now() - ts) / 1000);
-      let interval = seconds / 31536000;
-      if (interval > 1) return Math.floor(interval) + " il əvvəl";
-      interval = seconds / 2592000;
-      if (interval > 1) return Math.floor(interval) + " ay əvvəl";
-      interval = seconds / 86400;
-      if (interval > 1) return Math.floor(interval) + " gün əvvəl";
-      interval = seconds / 3600;
-      if (interval > 1) return Math.floor(interval) + " saat əvvəl";
-      interval = seconds / 60;
-      if (interval > 1) return Math.floor(interval) + " dəqiqə əvvəl";
-      return "İndi";
-    }
-
-    // Sənin GET endpoint-in
-    const API_GET_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgrPfCvZ_Q3YXuY9balsLJ5d7Wj8-P1uu8dfWhB-Af3VS9OrsPcBp4uswdCDBtud_ZGDB_oIVD5dMenu4ketgH_suCItsVOS0C0l0sfb4SQYLFmeoY649Cb6ztx-HJM2NVBtvYDe6T5LXQHrAouolaJCB6uzdCjwxchX9xS7CqoS-uiSLyBZ6KgeTh2jL3TNjARFjwCXqZJZ0paGTPnKnWVfFvaxLpidxam_NF64B_5czS3zkp8sqA0u5WLhHiiiCNWIzSyry_AW9E3m95ZQ0f8DkOWHA&lib=MZDG5OuFCsgObZ7QT_PNkFmCRMPvxsUvo";
-
-    async function fetchUsersFromAPI() {
-      const res = await fetch(API_GET_URL + "&t=" + Date.now(), { cache: "no-store" });
-      const data = await res.json();
-      if (!data.ok) throw new Error("GET error");
-      return Array.isArray(data.users) ? data.users : [];
-    }
-
-    // 3) boşluq gecikməsi: render dərhal + skeleton yoxdur + gecikmə cap
-    function renderUsers() {
-      grid.innerHTML = "";
-
-      const filtered = users.filter(u => {
-        if (currentFilter === "all") return true;
-        return u.gender === currentFilter || u.status === currentFilter;
-      });
-
-      filtered.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-      totalCountEl.innerText = users.length;
-      onlineCountEl.innerText = users.filter(u => (Date.now() - (u.timestamp || 0)) < 86400000).length;
-
-      if (filtered.length === 0) {
-        emptyState.classList.remove("hidden");
-        return;
-      } else {
-        emptyState.classList.add("hidden");
-      }
-
-      filtered.forEach((user, index) => {
-        const ts = user.timestamp || Date.now();
-        const isNew = (Date.now() - ts) < 60000;
-
-        // gecikməni çox böyütməmək üçün cap (blank hissi azalır)
-        const delay = Math.min(index * 60, 600);
-
-        const ig = safeText(user.instagram).replace("@","").replace(/\s+/g,"");
-        const igLink = ig ? `https://instagram.com/${encodeURIComponent(ig)}` : "#";
-
-        const avatarPrimary = ig ? getInstagramAvatarUrl(ig) : "";
-        const avatarFallback = getInitialsAvatarUrl(user.firstName, user.lastName, user.gender);
-
-        const card = document.createElement("div");
-        card.className = `user-card glass rounded-2xl p-6 relative group hover:bg-white/10 transition-all duration-300 ${isNew ? "new-user-highlight" : ""}`;
-        card.style.animationDelay = `${delay}ms`;
-
-        // 4) "Yaş" sətrinin yerinə Evli/Subay yaz
-        // 5) Ad, soyad, yaş yenə də görünsün -> yaş üçün ayrıca badge əlavə et
-        card.innerHTML = `
-          <div class="absolute top-4 right-4 flex flex-col items-end gap-2">
-            <span class="px-2 py-1 text-xs rounded-md ${user.status === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300'} border border-white/5">
-              ${safeText(user.status)}
-            </span>
-            <span class="px-2 py-1 text-xs rounded-md bg-white/5 text-gray-200 border border-white/5">
-              ${safeText(user.age)} yaş
-            </span>
-          </div>
-
-          ${isNew ? `
-            <div class="absolute top-4 left-4">
-              <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded-md bg-green-500/20 text-green-300 border border-white/5">
-                Yeni
-              </span>
-            </div>
-          ` : ""}
-
-          <div class="flex flex-col items-center text-center">
-            <div class="relative mb-4">
-              <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-purple-500 to-pink-500">
-                <img
-                  src="${avatarPrimary || avatarFallback}"
-                  data-fallback="${avatarFallback}"
-                  alt="${safeText(user.firstName)}"
-                  class="w-full h-full rounded-full object-cover border-4 border-[#0f172a]"
-                  onerror="this.onerror=null; this.src=this.dataset.fallback;"
-                >
-              </div>
-              ${isNew ? '<span class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-4 border-[#0f172a] rounded-full"></span>' : ''}
-            </div>
-
-            <h3 class="text-xl font-bold text-white mb-1">${safeText(user.firstName)} ${safeText(user.lastName)}</h3>
-
-            <!-- 4) yaş yerinə status; əlavə olaraq cins aşağıda -->
-            <p class="text-sm text-gray-400 mb-4">${safeText(user.status)} • ${safeText(user.gender)}</p>
-
-            ${
-              ig
-              ? `
-                <a href="${igLink}" target="_blank" rel="noopener"
-                  class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 text-purple-300 hover:text-white hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                  <span class="font-medium">@${ig}</span>
-                </a>
-              `
-              : `
-                <div class="w-full py-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 flex items-center justify-center gap-2">
-                  <span class="font-medium">Instagram daxil edilməyib</span>
-                </div>
-              `
-            }
-
-            <div class="mt-4 text-xs text-gray-500 flex items-center gap-1">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              ${timeAgo(ts)}
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function showToast(ok=true, msg="Qeydiyyat tamamlandı.") {
-      const toast = document.getElementById('toast');
-      toast.querySelector("h4").textContent = ok ? "Uğurlu!" : "Xəta!";
-      toast.querySelector("p").textContent = msg;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
-    }
-
-    function setFilterButtonUI(type) {
-      const buttons = document.querySelectorAll('button[onclick^="filterUsers"]');
-      buttons.forEach(btn => {
-        const active = btn.getAttribute('onclick').includes(`'${type}'`);
-        if (active) {
-          btn.classList.add('bg-white/20','ring-2','ring-purple-500');
-          btn.classList.remove('bg-white/5');
-        } else {
-          btn.classList.remove('bg-white/20','ring-2','ring-purple-500');
-          btn.classList.add('bg-white/5');
-        }
-      });
-    }
-
-    function filterUsers(type) {
-      currentFilter = type;
-      setFilterButtonUI(type);
-      renderUsers();
-    }
-
-    async function refreshData() {
-      try {
-        const apiUsers = await fetchUsersFromAPI();
-        users = apiUsers;
-        renderUsers();
-        showToast(true, "Yeniləndi.");
-      } catch (e) {
-        console.error(e);
-        showToast(false, "Yenilənmə alınmadı.");
+    function init() {
+      const isRegistered = localStorage.getItem(LS_REGISTERED);
+      const savedUser = localStorage.getItem(LS_KEY);
+      
+      if (isRegistered && savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showMainScreen();
       }
     }
 
-    /***********************
-     * 3) GOOGLE FORM SEND *
-     ***********************/
-    async function sendToGoogleForm(payload) {
-      const fd = new FormData();
-      fd.append(ENTRY_FIRSTNAME, payload.firstName);
-      fd.append(ENTRY_LASTNAME,  payload.lastName);
-      fd.append(ENTRY_AGE,       payload.age);
-      fd.append(ENTRY_GENDER,    payload.gender);
-      fd.append(ENTRY_STATUS,    payload.status);
-      fd.append(ENTRY_INSTAGRAM, payload.instagram);
-
-      await fetch(FORM_ACTION_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: fd
-      });
-
-      return { ok: true };
+    function selectStatus(el, value) {
+      document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('active'));
+      el.classList.add('active');
+      el.querySelector('input').checked = true;
     }
 
-    /***********************
-     * 4) OPTIONAL API SEND *
-     ***********************/
-    async function sendToAppsScript(payload) {
-      if (!API_URL || API_URL === "API_URL") return { ok: true, skipped: true };
-
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      return { ok: res.ok };
+    function showMainScreen() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainScreen').classList.remove('hidden');
+      loadUsers();
     }
 
-    /***********************
-     * 5) REGISTER HANDLER *
-     ***********************/
+    function getInitials(firstName, lastName) {
+      const f = firstName ? firstName.charAt(0).toUpperCase() : '';
+      const l = lastName ? lastName.charAt(0).toUpperCase() : '';
+      return f + l;
+    }
+
+    function timeAgo(timestamp) {
+      if (!timestamp) return "İndi";
+      const seconds = Math.floor((Date.now() - timestamp) / 1000);
+      if (seconds < 60) return "İndi";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} dəq əvvəl`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} saat əvvəl`;
+      return `${Math.floor(hours / 24)} gün əvvəl`;
+    }
+
     async function handleRegister(e) {
       e.preventDefault();
 
-      const firstName = safeText(document.getElementById('firstName').value);
-      const lastName  = safeText(document.getElementById('lastName').value);
-      const age       = safeText(document.getElementById('age').value);
-      const gender    = safeText(document.getElementById('gender').value);
-      const status    = safeText(document.querySelector('input[name="status"]:checked')?.value);
-      const instagram = safeText(document.getElementById('instagram').value).replace("@","").replace(/\s+/g,"");
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const age = document.getElementById('age').value;
+      const gender = document.getElementById('gender').value;
+      const status = document.querySelector('input[name="status"]:checked').value;
+      const instagram = document.getElementById('instagram').value.trim().replace("@", "");
 
-      if (!firstName || !lastName || !age || !gender || !status) {
-        showToast(false, "Bütün xanaları doldurun.");
-        return;
-      }
-
-      const now = Date.now();
-      const newUser = {
+      currentUser = {
+        id: Date.now(),
         firstName,
         lastName,
         age,
         gender,
         status,
         instagram,
-        timestamp: now
+        timestamp: Date.now(),
+        isNew: true
       };
 
-      // 2) qeydiyyatdan SONRA siyahı görünsün
-      setRegistered();
-      toggleListVisibility(true);
+      localStorage.setItem(LS_KEY, JSON.stringify(currentUser));
+      localStorage.setItem(LS_REGISTERED, "true");
 
-      // 3) boşluq olmasın: UI-də dərhal göstər
-      users.unshift({ id: now, ...newUser });
-      renderUsers();
-      showToast(true, "Qeydiyyat tamamlandı.");
+      sendToGoogleForm(currentUser);
 
-      // Sheet-ə göndər
-      try {
-        await sendToGoogleForm(newUser);
-
-        // 1.2 saniyə sonra Sheet-dən yenidən oxu (hamı üçün eyni siyahı)
-        setTimeout(refreshData, 1200);
-      } catch (err) {
-        console.error(err);
-        showToast(false, "Google Sheet-ə göndərilmədi.");
-      }
-
-      form.reset();
+      showMainScreen();
+      showToast("Qeydiyyat tamamlandı!");
+      
+      addUser(currentUser);
     }
 
-    /***********************
-     * START
-     ***********************/
-    document.addEventListener("DOMContentLoaded", async () => {
-      setFilterButtonUI("all");
-      toggleListVisibility(); // qeydiyyat yoxdursa siyahı gizli
+    async function sendToGoogleForm(user) {
+      const fd = new FormData();
+      fd.append(ENTRY_FIRSTNAME, user.firstName);
+      fd.append(ENTRY_LASTNAME, user.lastName);
+      fd.append(ENTRY_AGE, user.age);
+      fd.append(ENTRY_GENDER, user.gender);
+      fd.append(ENTRY_STATUS, user.status);
+      fd.append(ENTRY_INSTAGRAM, user.instagram);
 
-      // Qeydiyyat edənlər üçün dərhal siyahını yüklə
-      if (isRegistered()) {
-        try {
-          users = await fetchUsersFromAPI();
-          renderUsers();
-        } catch (e) {
-          console.error(e);
-          showToast(false, "Sheet-dən məlumat oxunmadı.");
-        }
+      try {
+        await fetch(FORM_ACTION_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: fd
+        });
+      } catch (e) {
+        console.error("Form göndərmə xətası:", e);
       }
-    });
+    }
 
-    console.log("API_URL =", API_URL);
+    function addUser(user) {
+      let existing = JSON.parse(localStorage.getItem(LS_USERS) || "[]");
+      existing.unshift(user);
+      localStorage.setItem(LS_USERS, JSON.stringify(existing));
+      users = existing;
+      renderUsers();
+    }
+
+    function loadUsers() {
+      const saved = localStorage.getItem(LS_USERS);
+      if (saved) {
+        users = JSON.parse(saved);
+      }
+      
+      if (currentUser && !users.find(u => u.id === currentUser.id)) {
+        users.unshift(currentUser);
+      }
+      
+      renderUsers();
+      
+      if (navigator.onLine) {
+        fetchUsersFromAPI();
+      }
+    }
+
+    async function fetchUsersFromAPI() {
+      try {
+        // API çağırışı buraya
+      } catch (e) {
+        console.log("API əlçatan deyil");
+      }
+    }
+
+    function renderUsers() {
+      const container = document.getElementById('usersList');
+      const emptyState = document.getElementById('emptyState');
+      const totalCount = document.getElementById('totalCount');
+      const todayCount = document.getElementById('todayCount');
+
+      let filtered = users.filter(u => {
+        if (currentFilter === 'all') return true;
+        return u.gender === currentFilter || u.status === currentFilter;
+      });
+
+      totalCount.textContent = users.length;
+      const today = users.filter(u => {
+        const ts = u.timestamp || 0;
+        return (Date.now() - ts) < 86400000;
+      }).length;
+      todayCount.textContent = today;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      
+      container.innerHTML = filtered.map((user, index) => {
+        const isNew = user.isNew || (Date.now() - (user.timestamp || 0) < 60000);
+        const initials = getInitials(user.firstName, user.lastName);
+        const fullName = `${user.firstName} ${user.lastName}`;
+        const ageText = user.age ? `${user.age} yaş` : '';
+        const genderText = user.gender || '';
+        const infoText = [ageText, genderText].filter(Boolean).join(' • ');
+        
+        return `
+          <div class="user-card" style="animation-delay: ${index * 0.1}s">
+            ${isNew ? '<div class="new-badge">Yeni</div>' : ''}
+            <span class="status-badge">${user.status}</span>
+            
+            <div class="avatar-circle">
+              ${initials}
+            </div>
+            
+            <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600;">${fullName}</h3>
+            <p style="margin: 0 0 12px 0; color: #6b7280; font-size: 13px;">${infoText}</p>
+            
+            <a href="https://instagram.com/${user.instagram}" target="_blank" class="instagram-btn">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @${user.instagram}
+            </a>
+            
+            <div class="time-ago">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              ${timeAgo(user.timestamp)}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      setTimeout(() => {
+        users.forEach(u => u.isNew = false);
+        localStorage.setItem(LS_USERS, JSON.stringify(users));
+      }, 5000);
+    }
+
+    function filterUsers(type, btn) {
+      currentFilter = type;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderUsers();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    init();
   </script>
 
 </body>
