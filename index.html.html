@@ -354,11 +354,21 @@ const ENTRY_STATUS    = "entry.222463848";
       localStorage.setItem(LS_KEY, JSON.stringify(users));
     }
 
-    function getAvatar(instagram) {
-    //   const bg = firstName === 'Kişi' ? '3b82f6' : (firstName === 'Qadın' ? 'ec4899' : '8b5cf6');
-        // return `https://unavatar.io/instagram/${gender}`
-         return `https://ui-avatars.com/api/?name=${instagram}&background=0f172a&color=fff&size=128&bold=true&rounded=true`;
-;    }
+   function getAvatar(instagram, age) {
+  const firstLetter =
+    instagram && instagram.length > 0
+      ? instagram.trim()[0].toUpperCase()
+      : "";
+
+  const secondLetter =
+    age && age.length > 0
+      ? age.trim()[0].toUpperCase()
+      : "";
+
+  const initials = `${firstLetter}${secondLetter}` || "U";
+
+  return `https://ui-avatars.com/api/?name=${initials}&background=0f172a&color=fff&size=128&bold=true&rounded=true`;
+}
 
     function timeAgo(ts) {
       const seconds = Math.floor((Date.now() - ts) / 1000);
@@ -433,7 +443,7 @@ const ENTRY_STATUS    = "entry.222463848";
           <div class="flex flex-col items-center text-center">
             <div class="relative mb-4">
               <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-purple-500 to-pink-500">
-                <img src="${getAvatar(user.instagram)}" alt="${user.firstName}" class="w-full h-full rounded-full object-cover border-4 border-[#0f172a]">
+                <img src="${getAvatar(user.instagram,user.age)}" alt="${user.firstName}" class="w-full h-full rounded-full object-cover border-4 border-[#0f172a]">
               </div>
               ${isNew ? '<span class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-4 border-[#0f172a] rounded-full"></span>' : ''}
             </div>
