@@ -237,7 +237,10 @@
                                 </svg>
                             </button>
 
-                    
+                            <p id="sendHint" class="text-xs text-gray-500 pt-2">
+                                Qeydiyyat zamanı məlumatlar həm ekrana düşəcək,
+                                həm də Google Sheet-ə göndəriləcək.
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -389,9 +392,14 @@ const ENTRY_STATUS    = "entry.222463848";
       grid.innerHTML = "";
 
       const filtered = users.filter(u => {
-        if (currentFilter === "all") return true;
-        return u.gender === currentFilter || u.status === currentFilter;
-      });
+  if (currentFilter === "all") return true;
+
+  return (
+    u.firstName === currentFilter || // Kişi / Qadın
+    u.lastName === currentFilter     // Subay / Evli
+  );
+});
+
 
       filtered.sort((a,b) => b.timestamp - a.timestamp);
 
@@ -457,10 +465,10 @@ const ENTRY_STATUS    = "entry.222463848";
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
     }
 
-    function setFilterButtonUI(type) {
+    function setFilterButtonUI(lastName) {
       const buttons = document.querySelectorAll('button[onclick^="filterUsers"]');
       buttons.forEach(btn => {
-        const active = btn.getAttribute('onclick').includes(`'${type}'`);
+        const active = btn.getAttribute('onclick').includes(`'${lastName}'`);
         if (active) {
           btn.classList.add('bg-white/20','ring-2','ring-purple-500');
           btn.classList.remove('bg-white/5');
@@ -471,15 +479,24 @@ const ENTRY_STATUS    = "entry.222463848";
       });
     }
 
-    function filterUsers(type) {
-      currentFilter = type;
-      setFilterButtonUI(type);
+    function filterUsers(firstName) {
+      currentFilter = firstName;
+      setFilterButtonUI(firstName);
       renderUsers();
     }
 
-    async function refreshData() {
+  async function refreshData() {
   try {
-    users = await fetchUsersFromAPI();
+    const apiUsers = await fetchUsersFromAPI();
+
+    // yeni əlavə etdiklərini itirmə
+    const localIds = new Set(users.map(u => u.id));
+    const merged = [
+      ...users,
+      ...apiUsers.filter(u => !localIds.has(u.id))
+    ];
+
+    users = merged;
     renderUsers();
     showToast(true, "Yeniləndi.");
   } catch (e) {
@@ -487,6 +504,7 @@ const ENTRY_STATUS    = "entry.222463848";
     showToast(false, "Yenilənmə alınmadı.");
   }
 }
+
 
 
     /***********************
@@ -589,4 +607,3 @@ console.log("API_URL =", API_URL);
 
     </body>
 </html>
-
