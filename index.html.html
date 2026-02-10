@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="az">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Qeydiyyat Portalı</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Qeydiyyat Portalı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet">
 
-  <style>
+    <style>
     :root { color-scheme: dark; }
 
 html {
@@ -375,211 +378,281 @@ select, option {
       }
     }
   </style>
-</head>
+  </head>
 
-<body class="antialiased min-h-screen">
+  <body class="antialiased min-h-screen">
 
-  <!-- Arxa fon -->
-  <div class="bg-gradient-mobile"></div>
+    <!-- Arxa fon -->
+    <div class="bg-gradient-mobile"></div>
 
-  <!-- Offline indicator -->
-  <div id="offlineIndicator" class="offline-indicator">
-    <span>⚠️ İnternet bağlantısı yoxdur</span>
-  </div>
-
-  <!-- Pull to refresh -->
-  <div id="pullToRefresh" class="pull-to-refresh">
-    <div class="pull-to-refresh-spinner"></div>
-  </div>
-
-  <!-- Image Modal -->
-  <div id="imageModal" class="image-modal" onclick="closeModal()">
-    <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
-      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </div>
-    <img id="modalImage" src="" alt="Profile">
-  </div>
-
-  <!-- Header -->
-  <nav class="fixed top-0 w-full z-50 glass border-b border-white/10 safe-area-top">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-14 sm:h-16">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-          </div>
-          <span class="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 truncate">
-            SocialConnect
-          </span>
-        </div>
-        <div class="flex items-center gap-2 sm:gap-4">
-          <button onclick="refreshData()" class="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95 touch-manipulation">
-            <svg class="w-4 h-4 text-purple-400 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <span class="text-xs sm:text-sm font-medium">Yenilə</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-
-    <!-- Hero + Form -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
-
-      <div class="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-          İcma ilə <br>
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">Əlaqə Qurun</span>
-        </h1>
-        <p class="text-base sm:text-lg text-gray-400 leading-relaxed">
-          Yeni insanlarla tanış olun, profilləri kəşf edin və şəbəkənizi genişləndirin. Aşağıdakı formu dolduraraq qeydiyyatdan keçin.
-        </p>
-
-        <div class="flex gap-6 sm:gap-8 pt-2 sm:pt-4">
-          <div>
-            <div class="text-2xl sm:text-3xl font-bold text-white" id="total-users-count">0</div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">İstifadəçi</div>
-          </div>
-          <div>
-            <div class="text-2xl sm:text-3xl font-bold text-white" id="online-count">0</div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">Bu gün</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="lg:col-span-7">
-        <div class="glass rounded-2xl p-5 sm:p-8 relative overflow-hidden">
-          <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 sm:w-24 sm:h-24 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
-          <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-24 h-24 sm:w-32 sm:h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
-
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
-            <span class="w-1 h-6 sm:h-8 bg-purple-500 rounded-full"></span>
-            Qeydiyyat Formu
-          </h2>
-
-          <form id="registerForm" class="space-y-4 sm:space-y-5" onsubmit="handleRegister(event)">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Ad</label>
-                <input type="text" id="firstName" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Adınızı daxil edin">
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Soyad</label>
-                <input type="text" id="lastName" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Soyadınızı daxil edin">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Yaş</label>
-                <input type="number" id="age" min="10" max="100" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="Məs: 25">
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-400 uppercase">Cins</label>
-                <select id="gender" required class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500 appearance-none">
-                  <option value="" disabled selected>Seçin</option>
-                  <option value="Kişi">Kişi</option>
-                  <option value="Qadın">Qadın</option>
-                  <option value="Digər">Digər</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="space-y-2 pt-1 sm:pt-2">
-              <label class="text-xs font-medium text-gray-400 uppercase">Ailə Vəziyyəti</label>
-              <div class="flex gap-3 sm:gap-4">
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Subay" class="peer sr-only" checked>
-                  <div class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all hover:bg-white/10 text-sm sm:text-base">
-                    Subay
-                  </div>
-                </label>
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="status" value="Evli" class="peer sr-only">
-                  <div class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all hover:bg-white/10 text-sm sm:text-base">
-                    Evli
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-xs font-medium text-gray-400 uppercase">Instagram İstifadəçi Adı</label>
-              <div class="relative">
-                <span class="absolute left-3 sm:left-4 top-2.5 sm:top-3.5 text-gray-500 text-base">@</span>
-                <input type="text" id="instagram" required class="w-full pl-7 sm:pl-8 pr-3 sm:pr-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500" placeholder="istifadeci_adi">
-              </div>
-              <p class="text-xs text-gray-500 mt-1">Yalnız istifadəçi adı daxil edin</p>
-            </div>
-
-            <button type="submit" class="w-full py-3 sm:py-4 mt-2 sm:mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transform transition hover:-translate-y-0.5 active:scale-95 flex justify-center items-center gap-2 text-sm sm:text-base touch-manipulation">
-              <span>Qeydiyyatdan Keç</span>
-              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
+    <!-- Offline indicator -->
+    <div id="offlineIndicator" class="offline-indicator">
+      <span>⚠️ İnternet bağlantısı yoxdur</span>
     </div>
 
-    <!-- Filters -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
-      <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan Keçənlər</h3>
-      <div class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
-        <button onclick="filterUsers('all')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap flex-shrink-0">Hamısı</button>
-        <button onclick="filterUsers('Kişi')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Kişi</button>
-        <button onclick="filterUsers('Qadın')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Qadın</button>
-        <button onclick="filterUsers('Subay')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Subay</button>
-        <button onclick="filterUsers('Evli')" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Evli</button>
-      </div>
+    <!-- Pull to refresh -->
+    <div id="pullToRefresh" class="pull-to-refresh">
+      <div class="pull-to-refresh-spinner"></div>
     </div>
 
-    <!-- Loading Skeleton (hidden by default) -->
-    <div id="skeletonLoader" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-      <!-- Skeleton cards will be generated by JS -->
-    </div>
-
-    <!-- Grid -->
-    <div id="usersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
-
-    <div id="emptyState" class="hidden text-center py-12 sm:py-20">
-      <div class="inline-block p-3 sm:p-4 rounded-full bg-white/5 mb-3 sm:mb-4">
-        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" onclick="closeModal()">
+      <div class="modal-close" onclick="event.stopPropagation(); closeModal()">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </div>
-      <p class="text-gray-400 text-sm sm:text-base">Hələ heç kim qeydiyyatdan keçməyib.</p>
+      <img id="modalImage" src alt="Profile">
     </div>
 
-  </main>
-
-  <!-- Toast -->
-  <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
-    <div class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl flex items-center gap-3">
-      <div class="bg-green-500/20 p-1.5 sm:p-2 rounded-full flex-shrink-0">
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
+    <!-- Header -->
+    <nav
+      class="fixed top-0 w-full z-50 glass border-b border-white/10 safe-area-top">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14 sm:h-16">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <span
+              class="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 truncate">
+              SocialConnect
+            </span>
+          </div>
+          <div class="flex items-center gap-2 sm:gap-4">
+            <button onclick="refreshData()"
+              class="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full glass hover:bg-white/10 transition-all active:scale-95 touch-manipulation">
+              <svg
+                class="w-4 h-4 text-purple-400 group-hover:rotate-180 transition-transform duration-500"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span class="text-xs sm:text-sm font-medium">Yenilə</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="min-w-0">
-        <h4 class="font-bold text-sm sm:text-base">Uğurlu!</h4>
-        <p class="text-xs sm:text-sm text-gray-300 truncate">Qeydiyyat tamamlandı.</p>
+    </nav>
+
+    <main class="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+      <!-- Hero + Form -->
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
+
+        <div
+          class="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6">
+          <h1
+            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            İcma ilə <br>
+            <span
+              class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">Əlaqə
+              Qurun</span>
+          </h1>
+          <p class="text-base sm:text-lg text-gray-400 leading-relaxed">
+            Yeni insanlarla tanış olun, profilləri kəşf edin və şəbəkənizi
+            genişləndirin. Aşağıdakı formu dolduraraq qeydiyyatdan keçin.
+          </p>
+
+          <div class="flex gap-6 sm:gap-8 pt-2 sm:pt-4">
+            <div>
+              <div class="text-2xl sm:text-3xl font-bold text-white"
+                id="total-users-count">0</div>
+              <div
+                class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">İstifadəçi</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-bold text-white"
+                id="online-count">0</div>
+              <div
+                class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">Bu
+                gün</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="glass rounded-2xl p-5 sm:p-8 relative overflow-hidden">
+            <div
+              class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 sm:w-24 sm:h-24 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+            <div
+              class="absolute bottom-0 left-0 -mb-4 -ml-4 w-24 h-24 sm:w-32 sm:h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+
+            <h2
+              class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
+              <span class="w-1 h-6 sm:h-8 bg-purple-500 rounded-full"></span>
+              Qeydiyyat Formu
+            </h2>
+
+            <form id="registerForm" class="space-y-4 sm:space-y-5"
+              onsubmit="handleRegister(event)">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div class="space-y-1">
+                  <label
+                    class="text-xs font-medium text-gray-400 uppercase">Ad</label>
+                  <input type="text" id="firstName" required
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500"
+                    placeholder="Adınızı daxil edin">
+                </div>
+                <div class="space-y-1">
+                  <label
+                    class="text-xs font-medium text-gray-400 uppercase">Soyad</label>
+                  <input type="text" id="lastName" required
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500"
+                    placeholder="Soyadınızı daxil edin">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div class="space-y-1">
+                  <label
+                    class="text-xs font-medium text-gray-400 uppercase">Yaş</label>
+                  <input type="number" id="age" min="10" max="100" required
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500"
+                    placeholder="Məs: 25">
+                </div>
+                <div class="space-y-1">
+                  <label
+                    class="text-xs font-medium text-gray-400 uppercase">Cins</label>
+                  <select id="gender" required
+                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500 appearance-none">
+                    <option value disabled selected>Seçin</option>
+                    <option value="Kişi">Kişi</option>
+                    <option value="Qadın">Qadın</option>
+                    <option value="Digər">Digər</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="space-y-2 pt-1 sm:pt-2">
+                <label class="text-xs font-medium text-gray-400 uppercase">Ailə
+                  Vəziyyəti</label>
+                <div class="flex gap-3 sm:gap-4">
+                  <label class="flex-1 cursor-pointer">
+                    <input type="radio" name="status" value="Subay"
+                      class="peer sr-only" checked>
+                    <div
+                      class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-purple-600 peer-checked:border-purple-500 transition-all hover:bg-white/10 text-sm sm:text-base">
+                      Subay
+                    </div>
+                  </label>
+                  <label class="flex-1 cursor-pointer">
+                    <input type="radio" name="status" value="Evli"
+                      class="peer sr-only">
+                    <div
+                      class="text-center py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 peer-checked:bg-pink-600 peer-checked:border-pink-500 transition-all hover:bg-white/10 text-sm sm:text-base">
+                      Evli
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label
+                  class="text-xs font-medium text-gray-400 uppercase">Instagram
+                  İstifadəçi Adı</label>
+                <div class="relative">
+                  <span
+                    class="absolute left-3 sm:left-4 top-2.5 sm:top-3.5 text-gray-500 text-base">@</span>
+                  <input type="text" id="instagram" required
+                    class="w-full pl-7 sm:pl-8 pr-3 sm:pr-4 py-2.5 sm:py-3 rounded-xl glass-input focus:ring-2 focus:ring-purple-500"
+                    placeholder="istifadeci_adi">
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Yalnız istifadəçi adı
+                  daxil edin</p>
+              </div>
+
+              <button type="submit"
+                class="w-full py-3 sm:py-4 mt-2 sm:mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transform transition hover:-translate-y-0.5 active:scale-95 flex justify-center items-center gap-2 text-sm sm:text-base touch-manipulation">
+                <span>Qeydiyyatdan Keç</span>
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
+        <h3 class="text-xl sm:text-2xl font-bold text-white">Qeydiyyatdan
+          Keçənlər</h3>
+        <div
+          class="flex gap-2 overflow-x-auto pb-2 w-full sm:w-auto no-scrollbar">
+          <button onclick="filterUsers('all')"
+            class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors ring-2 ring-purple-500 whitespace-nowrap flex-shrink-0">Hamısı</button>
+          <button onclick="filterUsers('Kişi')"
+            class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Kişi</button>
+          <button onclick="filterUsers('Qadın')"
+            class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Qadın</button>
+          <button onclick="filterUsers('Subay')"
+            class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Subay</button>
+          <button onclick="filterUsers('Evli')"
+            class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-white/20 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">Evli</button>
+        </div>
+      </div>
+
+      <!-- Loading Skeleton (hidden by default) -->
+      <div id="skeletonLoader"
+        class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Skeleton cards will be generated by JS -->
+      </div>
+
+      <!-- Grid -->
+      <div id="usersGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
+
+      <div id="emptyState" class="hidden text-center py-12 sm:py-20">
+        <div
+          class="inline-block p-3 sm:p-4 rounded-full bg-white/5 mb-3 sm:mb-4">
+          <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-500" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <p class="text-gray-400 text-sm sm:text-base">Hələ heç kim qeydiyyatdan
+          keçməyib.</p>
+      </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast"
+      class="fixed bottom-4 right-4 left-4 sm:left-auto transform translate-y-24 opacity-0 transition-all duration-300 z-50">
+      <div
+        class="glass bg-gray-900/90 border-l-4 border-green-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl flex items-center gap-3">
+        <div class="bg-green-500/20 p-1.5 sm:p-2 rounded-full flex-shrink-0">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <h4 class="font-bold text-sm sm:text-base">Uğurlu!</h4>
+          <p class="text-xs sm:text-sm text-gray-300 truncate">Qeydiyyat
+            tamamlandı.</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
+    <script>
     /***********************
      *  CONFIGURATION      *
      ***********************/
@@ -615,10 +688,10 @@ select, option {
     /**
      * AVATAR GENERATION - DiceBear və ya Instagram profil şəkli
      */
-    function getAvatar(instagram,age) {
+    function getAvatar(firstName,lastName,gender) {
     
       
-      const name = `${instagram || ''} ${age || ''}`.trim();
+      const name = `${firstName || ''} ${lastName || ''}`.trim();
       const seed = encodeURIComponent(name || 'User');
       
       // Cinsə görə arxa fon rəngləri
@@ -765,16 +838,20 @@ select, option {
           throw new Error("API-dən düzgün data gəlmədi");
         }
 
-        return data.users.map(u => ({
-          id: u.id || Date.now() + Math.random(),
-          firstName: u.FirstName || u.firstName || u.ad || u.Ad || "",
-          lastName: u.LastName || u.lastName || u.soyad || u.Soyad || "",
-          age: u.Age || u.age || u.yas || u.Yaş || "",
-          gender: u.Gender || u.gender || u.cins || u.Cins || "Digər",
-          status: u.Status || u.status || u.veziyyet || u.Vəziyyət || "Subay",
-          instagram: u.Instagram || u.instagram || u.ig || "",
-          timestamp: u.Timestamp || u.timestamp || Date.now()
-        }));
+       return data.users.map(u => ({
+  id: u.id || Date.now() + Math.random(),
+
+  // DÜZGÜN MAPPING
+  firstName: u.instagram || "",   // ad
+  lastName:  u.age || "",         // soyad
+  gender:    u.firstName || "",   // Kişi / Qadın
+  status:    u.lastName || "",    // Subay / Evli
+  instagram: u.gender || "",      // instagram username
+  age:       u.status || "",      // yaş
+
+  timestamp: u.timestamp || Date.now()
+}));
+
 
       } catch (e) {
         console.error("API fetch xətası:", e);
@@ -825,7 +902,7 @@ select, option {
         const isNew = user.id === lastAddedUserId;
         const isRecent = user.timestamp && (Date.now() - user.timestamp) < 60000;
         const delay = index * 100;
-        const ig = (user.gender || "").replace("@", "");
+        const ig = (user.instagram || "").replace("@", "");
         const igLink = ig ? `https://instagram.com/${ig}` : "#";
 
         const card = document.createElement("div");
@@ -839,14 +916,14 @@ select, option {
         
         card.style.animationDelay = `${delay}ms`;
 
-        const displayName = `${user.instagram || ''} ${user.age || ''}`.trim() || "Naməlum";
+        const displayName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || "Naməlum";
         const displayNameShort = displayName.length > 20 ? displayName.substring(0, 20) + '...' : displayName;
-        const displayAge = user.age ? `${user.status} yaş` : "";
-        const displayGender = user.firstName || "";
-        const displayStatus = user.lastName || "Subay";
+        const displayAge = user.age ? `${user.age} yaş` : "";
+        const displayGender = user.gender || "";
+        const displayStatus = user.status || "Subay";
         const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300';
 
-        const avatarUrl = getAvatar(user.instagram, user.age);
+        const avatarUrl = getAvatar(user.firstName, user.lastName,user.gender);
 
         // Yeni badge əlavə et
         const newBadge = isNew ? '<div class="new-badge">Yeni</div>' : '';
@@ -866,7 +943,7 @@ select, option {
                   alt="${displayName}"
                   class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-[#0f172a] bg-gray-800"
                   loading="lazy"
-                  onerror="this.src='${getAvatar('U', '', user.gender)}'">
+                  onerror="this.src='${getAvatar('U', '', user.firstName)}'">
               </div>
               ${isRecent ? '<span class="absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 border-2 sm:border-4 border-[#0f172a] rounded-full"></span>' : ''}
             </div>
@@ -1051,5 +1128,5 @@ select, option {
     
   </script>
 
-</body>
+  </body>
 </html>
