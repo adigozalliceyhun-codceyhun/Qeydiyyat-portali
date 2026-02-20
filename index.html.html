@@ -845,19 +845,16 @@ select, option {
           throw new Error("API-dən düzgün data gəlmədi");
         }
 
-       return data.users.map(u => ({
-  id: u.id || Date.now() + Math.random(),
-
-  // DÜZGÜN MAPPING
-  firstName: u.instagram || "",   // ad
-  lastName:  u.age || "",         // soyad
-  gender:    u.firstName || "",   // Kişi / Qadın
-  status:    u.lastName || "",    // Subay / Evli
-  instagram: u.gender || "",      // instagram username
-  age:       u.status || "",      // yaş
-
-  timestamp: u.timestamp || Date.now()
-}));
+        return data.users.map(u => ({
+          id: u.id || Date.now() + Math.random(),
+          firstName: u.firstName || "",
+          lastName: u.lastName || "",
+          age: u.age || "",
+          gender: u.gender || "",
+          status: u.status || "",
+          instagram: u.instagram || "",
+          timestamp: u.timestamp || Date.now()
+        }));
 
 
       } catch (e) {
