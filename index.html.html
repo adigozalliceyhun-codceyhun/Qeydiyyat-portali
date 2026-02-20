@@ -688,7 +688,9 @@ select, option {
     /**
      * AVATAR GENERATION - DiceBear və ya Instagram profil şəkli
      */
-    function getInitialsAvatar(firstName, lastName, gender) {
+    function getAvatar(firstName,lastName,gender) {
+    
+      
       const name = `${firstName || ''} ${lastName || ''}`.trim();
       const seed = encodeURIComponent(name || 'User');
       
@@ -704,15 +706,6 @@ select, option {
       
       // DiceBear initials API - SVG format
       return `https://api.dicebear.com/9.x/initials/svg?seed=${seed}&backgroundColor=${bgColors}&textColor=ffffff&size=128&radius=50&fontSize=50&chars=2`;
-    }
-
-    function getAvatar(firstName, lastName, gender, instagram) {
-      const ig = (instagram || '').trim().replace('@', '');
-      if (ig) {
-        return `https://unavatar.io/instagram/${encodeURIComponent(ig)}`;
-      }
-
-      return getInitialsAvatar(firstName, lastName, gender);
     }
 
     function timeAgo(ts) {
@@ -845,16 +838,19 @@ select, option {
           throw new Error("API-dən düzgün data gəlmədi");
         }
 
-        return data.users.map(u => ({
-          id: u.id || Date.now() + Math.random(),
-          firstName: u.firstName || "",
-          lastName: u.lastName || "",
-          age: u.age || "",
-          gender: u.gender || "",
-          status: u.status || "",
-          instagram: u.instagram || "",
-          timestamp: u.timestamp || Date.now()
-        }));
+       return data.users.map(u => ({
+  id: u.id || Date.now() + Math.random(),
+
+  // DÜZGÜN MAPPING
+  firstName: u.instagram || "",   // ad
+  lastName:  u.age || "",         // soyad
+  gender:    u.firstName || "",   // Kişi / Qadın
+  status:    u.lastName || "",    // Subay / Evli
+  instagram: u.gender || "",      // instagram username
+  age:       u.status || "",      // yaş
+
+  timestamp: u.timestamp || Date.now()
+}));
 
 
       } catch (e) {
@@ -927,8 +923,7 @@ select, option {
         const displayStatus = user.status || "Subay";
         const statusColor = displayStatus === 'Evli' ? 'bg-pink-500/20 text-pink-300' : 'bg-blue-500/20 text-blue-300';
 
-        const avatarUrl = getAvatar(user.firstName, user.lastName, user.gender, user.instagram);
-        const initialsFallback = getInitialsAvatar(user.firstName, user.lastName, user.gender);
+        const avatarUrl = getAvatar(user.firstName, user.lastName,user.gender);
 
         // Yeni badge əlavə et
         const newBadge = isNew ? '<div class="new-badge">Yeni</div>' : '';
@@ -948,7 +943,7 @@ select, option {
                   alt="${displayName}"
                   class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-[#0f172a] bg-gray-800"
                   loading="lazy"
-                  onerror="this.onerror=null;this.src='${initialsFallback}'">
+                  onerror="this.src='${getAvatar('U', '', user.firstName)}'">
               </div>
               ${isRecent ? '<span class="absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 border-2 sm:border-4 border-[#0f172a] rounded-full"></span>' : ''}
             </div>
